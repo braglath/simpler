@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/views/custom%20widgets/back_appbar.dart';
+
 import '../controllers/project_management_controller.dart';
 
 class ProjectManagementView extends GetView<ProjectManagementController> {

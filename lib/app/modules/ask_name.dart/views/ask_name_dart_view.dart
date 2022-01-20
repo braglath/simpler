@@ -39,9 +39,7 @@ class AskNameDartView extends GetView<AskNameDartController> {
                 ),
                 Form(
                   key: controller.nameFormState,
-                  
                   child: TextTypeField(
-                    
                       controller: controller.userNameController,
                       maxlines: 1,
                       validator: (val) {},

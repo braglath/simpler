@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:simpler/app/data/resources/colour_resources.dart';
 
 class AvatarChoices extends StatelessWidget {
@@ -6,9 +7,7 @@ class AvatarChoices extends StatelessWidget {
 
   final Function()? onTap;
   const AvatarChoices(
-      {Key? key,
-      required this.assetString,
-      required this.onTap})
+      {Key? key, required this.assetString, required this.onTap})
       : super(key: key);
 
   @override

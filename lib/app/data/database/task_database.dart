@@ -1,7 +1,8 @@
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
 import 'package:simpler/app/data/model/project_model.dart';
 import 'package:simpler/app/data/model/task_model.dart';
-import 'package:sqflite/sqflite.dart';
 
 class TaskDatabase {
   static final TaskDatabase instance = TaskDatabase._init();

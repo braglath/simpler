@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
-import 'package:simpler/app/data/database/project_database.dart';
 
+import 'package:simpler/app/data/database/project_database.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 
 class HomeController extends GetxController {

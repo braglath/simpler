@@ -1,10 +1,10 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:simpler/app/data/model/project_model.dart';
 
+import 'package:simpler/app/data/model/project_model.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/modules/home/controllers/home_controller.dart';
 import 'package:simpler/app/routes/app_pages.dart';

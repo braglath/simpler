@@ -21,7 +21,9 @@ class PickDeadlineView extends GetView<PickDeadlineController> {
   PickDeadlineView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: const BackAppBar(title: '',actions: null), body: _mainBody(context));
+    return Scaffold(
+        appBar: const BackAppBar(title: '', actions: null),
+        body: _mainBody(context));
   }
 
   Widget _mainBody(BuildContext context) {

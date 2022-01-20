@@ -1,6 +1,7 @@
 import 'package:path/path.dart';
-import 'package:simpler/app/data/model/project_model.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'package:simpler/app/data/model/project_model.dart';
 
 class ProjectDatabase {
   static final ProjectDatabase instance = ProjectDatabase._init();

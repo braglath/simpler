@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+
 import 'package:simpler/app/data/resources/colour_resources.dart';
 
 class CustomDialogue {
@@ -20,7 +22,6 @@ class CustomDialogue {
       required this.isDismissible});
 
   void showDialogue() {
-    
     Get.defaultDialog(
         barrierDismissible: false,
         title: title,

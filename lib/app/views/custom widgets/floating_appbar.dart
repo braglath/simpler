@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:get/get.dart';
-import 'package:simpler/app/data/database/project_database.dart';
 
+import 'package:simpler/app/data/database/project_database.dart';
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';

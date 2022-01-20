@@ -23,10 +23,7 @@ class NewProjectView extends GetView<NewProjectController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const BackAppBar(
-          title: '',
-          actions: null
-        ),
+        appBar: const BackAppBar(title: '', actions: null),
         body: _mainBody(context));
   }
 
