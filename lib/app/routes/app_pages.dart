@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+
+import 'package:simpler/app/data/user_data/user_data.dart';
+import 'package:simpler/app/modules/ask_name.dart/bindings/ask_name_dart_binding.dart';
+import 'package:simpler/app/modules/ask_name.dart/views/ask_name_dart_view.dart';
+import 'package:simpler/app/modules/choose_avatar/bindings/choose_avatar_binding.dart';
+import 'package:simpler/app/modules/choose_avatar/views/choose_avatar_view.dart';
+import 'package:simpler/app/modules/first_task/bindings/project_avatar_binding.dart';
+import 'package:simpler/app/modules/first_task/views/project_avatar.dart';
+import 'package:simpler/app/modules/home/bindings/home_binding.dart';
+import 'package:simpler/app/modules/home/views/home_view.dart';
+import 'package:simpler/app/modules/new_project/bindings/new_project_binding.dart';
+import 'package:simpler/app/modules/new_project/views/new_project_view.dart';
+import 'package:simpler/app/modules/pick_deadline/bindings/pick_deadline_binding.dart';
+import 'package:simpler/app/modules/pick_deadline/views/pick_deadline_view.dart';
+import 'package:simpler/app/modules/project_management/bindings/project_management_binding.dart';
+import 'package:simpler/app/modules/project_management/views/project_management_view.dart';
+
+part 'app_routes.dart';
+
+class AppPages {
+  AppPages._();
+
+  static final INITIAL = UserDataDetails().readUserLoggedIn() == false
+      ? Routes.ASK_NAME_DART
+      : Routes.HOME;
+
+  static final routes = [
+    GetPage(
+        name: _Paths.HOME,
+        page: () => const HomeView(),
+        binding: HomeBinding(),
+        transition: Transition.circularReveal,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn),
+    GetPage(
+        name: _Paths.NEW_PROJECT,
+        page: () => NewProjectView(),
+        binding: NewProjectBinding(),
+        transition: Transition.cupertinoDialog,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn),
+    GetPage(
+        name: _Paths.PICK_DEADLINE,
+        page: () => PickDeadlineView(),
+        binding: PickDeadlineBinding(),
+        transition: Transition.cupertino,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn),
+    GetPage(
+        name: _Paths.FIRST_TASK,
+        page: () => ProjectAvatarView(),
+        binding: ProjectAvatarBinding(),
+        transition: Transition.cupertino,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn),
+    GetPage(
+        name: _Paths.ASK_NAME_DART,
+        page: () => const AskNameDartView(),
+        binding: AskNameDartBinding(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn),
+    GetPage(
+        name: _Paths.CHOOSE_AVATAR,
+        page: () => ChooseAvatarView(),
+        binding: ChooseAvatarBinding(),
+        transition: Transition.cupertino,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn),
+    GetPage(
+        name: _Paths.PROJECT_MANAGEMENT,
+        page: () => ProjectManagementView(),
+        binding: ProjectManagementBinding(),
+        transition: Transition.cupertino,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn),
+  ];
+}
