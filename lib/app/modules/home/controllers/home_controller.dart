@@ -26,8 +26,8 @@ class HomeController extends GetxController {
     _timer = Timer.periodic(const Duration(seconds: 8), (Timer t) {
       timing = timing + 1;
       changeDateName();
-      print(timing);
-      print(date.value);
+      // print(timing);
+      // print(date.value);
     });
   }
 
@@ -58,7 +58,7 @@ class HomeController extends GetxController {
     var now = DateTime.now();
     var currentMon = now.month;
     date.value = '${months[currentMon - 1]} ${now.day}, ${now.year}';
-    print(months[currentMon - 1]);
+    // print(months[currentMon - 1]);
   }
 
   int daysBetween(DateTime from, DateTime to) {

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:simpler/app/data/database/project_database.dart';
 
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/resources/usable_strings.dart';
+import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/routes/app_pages.dart';
 import 'package:simpler/app/views/custom%20widgets/Text_type_field.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
@@ -43,7 +45,14 @@ class HomeView extends GetView<HomeController> {
                   height: 50,
                   child: Obx(() {
                     return FloatingAppBar(
-                      date: controller.date.value,
+                      title: controller.date.value,
+                      needBackBtn: false,
+                      asset: '',
+                      onActionTap: () => controller.animatedContainer(),
+                      onLeadingTap: () async => await ProjectDatabase.instance
+                          .close()
+                          .whenComplete(
+                              () => UserDataDetails().deleteUserDetails()),
                     );
                   }),
                 ),
@@ -106,13 +115,15 @@ class HomeView extends GetView<HomeController> {
     final List<Widget> myProjects = [
       const Heading(heading: CommonStrings.myProjects),
       const SizedBox(height: 15),
-      TotalProjects(
-        title: CommonStrings.totalProjects,
-        number: controller.project.value.length.toString(),
-        iconAsset: AssetIcons.totalProjects,
-        newChild: false,
-        child: SizedBox.shrink(),
-      ),
+      Obx(() {
+        return TotalProjects(
+          title: CommonStrings.totalProjects,
+          number: controller.project.length.toString(),
+          iconAsset: AssetIcons.totalProjects,
+          newChild: false,
+          child: const SizedBox.shrink(),
+        );
+      }),
       const SizedBox(height: 15),
       _myProjCompletedNPending(),
     ];
@@ -185,7 +196,7 @@ class RecentProjects extends GetView<HomeController> {
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            print('project index - $index');
+            // print('project index - $index');
             final project = controller.project[index];
             return ProjectCard(
               project: project,

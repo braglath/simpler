@@ -11,7 +11,7 @@ class CustomDialogue {
   Function()? onpressedConfirm;
   Function()? onpressedCancel;
   Widget? contentWidget;
-  bool isDismissible = false;
+  bool isDismissible;
   CustomDialogue(
       {required this.title,
       required this.textConfirm,
@@ -23,7 +23,7 @@ class CustomDialogue {
 
   void showDialogue() {
     Get.defaultDialog(
-        barrierDismissible: false,
+        barrierDismissible: isDismissible,
         title: title,
         backgroundColor: ColorRes.scaffoldBG,
         titleStyle: const TextStyle(
@@ -37,6 +37,7 @@ class CustomDialogue {
         cancel:
             ElevatedButton(onPressed: onpressedCancel, child: Text(textCancel)),
         radius: 12,
-        content: contentWidget);
+        content:
+            contentWidget == null ? const SizedBox.shrink() : contentWidget);
   }
 }

@@ -78,13 +78,17 @@ CREATE TABLE $tableTask (
   }
 
   //? to read all projects
-  Future<List<Task>> readAllProjects(int id) async {
+  Future<List<Task>> readAllProjects(int id, String status) async {
     //? you can add more fields next to tableProjects inside db.query
     final db = await instance.database;
     final orderBy = '${TaskFields.id} DESC';
     //? you can also create your own query statement
-    final result = await db.rawQuery(
-        'SELECT * FROM $tableProjects WHERE $id=${TaskFields.projectId} ORDER BY $orderBy');
+    final result = await db.query(tableTask,
+        columns: TaskFields.values,
+        where:
+            '${TaskFields.id} = ? AND ${TaskFields.status} = ?', //? the ? will take the value below, id
+        whereArgs: [id, status],
+        orderBy: orderBy);
     // final result = await db.query(tableTask, orderBy: orderBy);
     return result.map((json) => Task.fromJson(json)).toList();
   }

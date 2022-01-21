@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import 'package:simpler/app/data/database/project_database.dart';
@@ -12,8 +13,19 @@ import 'package:simpler/app/views/animations/fade_animation.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 
 class FloatingAppBar extends StatelessWidget {
-  final String date;
-  FloatingAppBar({Key? key, required this.date}) : super(key: key);
+  final String title;
+  final bool needBackBtn;
+  final Function()? onLeadingTap;
+  final Function()? onActionTap;
+  final String asset;
+  FloatingAppBar({
+    Key? key,
+    required this.title,
+    required this.needBackBtn,
+    required this.onLeadingTap,
+    required this.onActionTap,
+    required this.asset
+  }) : super(key: key);
 
   final homeController = Get.put<HomeController>(HomeController());
 
@@ -28,23 +40,20 @@ class FloatingAppBar extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Row(
           children: <Widget>[
-            CustomLeadingWidget(onLeadingTap: () async {
-              await ProjectDatabase.instance
-                  .close()
-                  .whenComplete(() => UserDataDetails().deleteUserDetails());
-            }),
+            CustomLeadingWidget(
+              onLeadingTap: onLeadingTap,
+              needBackBtn: needBackBtn,
+            ),
             const SizedBox(width: 10),
             FadeAnimation(
               duration: const Duration(milliseconds: 500),
               child: AutoSizeText(
-                date,
+                title,
                 style: Theme.of(context).textTheme.caption,
               ),
             ),
             const Spacer(),
-            CustomProfileImage(onProfileTap: () {
-              homeController.animatedContainer();
-            })
+            CustomProfileImage(onProfileTap: onActionTap, asset: asset, needBackBtn: needBackBtn, )
           ],
         ),
         gradientColor: ColorRes.scaffoldBG);
@@ -53,7 +62,13 @@ class FloatingAppBar extends StatelessWidget {
 
 class CustomProfileImage extends StatelessWidget {
   final Function()? onProfileTap;
-  const CustomProfileImage({Key? key, required this.onProfileTap})
+  final bool needBackBtn;
+  final String asset;
+  const CustomProfileImage(
+      {Key? key,
+      required this.onProfileTap,
+      required this.needBackBtn,
+      required this.asset})
       : super(key: key);
 
   @override
@@ -64,7 +79,7 @@ class CustomProfileImage extends StatelessWidget {
           backgroundColor: Colors.white,
           radius: 15,
           child: Image.asset(
-            UserDataDetails().readUserAvatar(),
+            needBackBtn ? asset : UserDataDetails().readUserAvatar(),
             fit: BoxFit.contain,
             height: 25,
             width: 25,
@@ -75,7 +90,9 @@ class CustomProfileImage extends StatelessWidget {
 
 class CustomLeadingWidget extends StatelessWidget {
   final Function()? onLeadingTap;
-  const CustomLeadingWidget({Key? key, required this.onLeadingTap})
+  final bool needBackBtn;
+  const CustomLeadingWidget(
+      {Key? key, required this.onLeadingTap, required this.needBackBtn})
       : super(key: key);
 
   @override
@@ -92,10 +109,15 @@ class CustomLeadingWidget extends StatelessWidget {
                 radius: 13.0,
                 backgroundColor: ColorRes.pureWhite,
                 child: Center(
-                  child: Image.asset(
-                    AssetIcons.drawer,
-                    color: ColorRes.textColor,
-                  ),
+                  child: needBackBtn
+                      ? const FaIcon(
+                          FontAwesomeIcons.chevronLeft,
+                          color: ColorRes.textColor,
+                        )
+                      : Image.asset(
+                          AssetIcons.drawer,
+                          color: ColorRes.textColor,
+                        ),
                 ),
               ),
             ),

@@ -32,14 +32,14 @@ class AppPages {
         name: _Paths.HOME,
         page: () => const HomeView(),
         binding: HomeBinding(),
-        transition: Transition.circularReveal,
+        transition: Transition.cupertino,
         transitionDuration: const Duration(milliseconds: 500),
         curve: Curves.fastOutSlowIn),
     GetPage(
         name: _Paths.NEW_PROJECT,
         page: () => NewProjectView(),
         binding: NewProjectBinding(),
-        transition: Transition.cupertinoDialog,
+        transition: Transition.cupertino,
         transitionDuration: const Duration(milliseconds: 500),
         curve: Curves.fastOutSlowIn),
     GetPage(

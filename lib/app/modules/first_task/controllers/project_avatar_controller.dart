@@ -45,17 +45,5 @@ class ProjectAvatarController extends GetxController {
         .whenComplete(() => Get.offAllNamed(Routes.HOME));
   }
 
-  Future addFirstTask(
-      int projectId, String projectTitle, String firstTask) async {
-    final status = 'To do';
-    final Task task = Task(
-        projectId: projectId,
-        projectTitle: projectTitle,
-        task: firstTask,
-        status: status);
-
-    await TaskDatabase.instance
-        .create(task)
-        .whenComplete(() => Get.offAllNamed(Routes.HOME));
-  }
+ 
 }

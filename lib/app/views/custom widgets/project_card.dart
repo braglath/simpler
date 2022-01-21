@@ -86,8 +86,12 @@ class ProjectCard extends StatelessWidget {
                       ),
                       isDismissible: true)
                   .showDialogue(),
-              onTap: () => Get.toNamed(Routes.PROJECT_MANAGEMENT,
-                  arguments: {'title': project.title, 'asset': project.avatar}),
+              onTap: () => Get.toNamed(Routes.PROJECT_MANAGEMENT, arguments: {
+                'title': project.title,
+                'asset': project.avatar,
+                'projectDeadline': projectDeadline,
+                'projectId': project.id
+              }),
               enableFeedback: true,
               leading: Image.asset(
                 project.avatar,
