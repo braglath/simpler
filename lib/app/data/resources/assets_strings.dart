@@ -3,6 +3,7 @@ class AssetIcons {
   static const totalProjects = 'assets/icons/totalProjects.png';
   static const completedProjects = 'assets/icons/completedProjects.png';
   static const pendingProjects = 'assets/icons/pendingProjects.png';
+  static const inprogress = 'assets/icons/inprogress.png';
 
   static const male1 = 'assets/users/male/male1.png';
   static const male2 = 'assets/users/male/male2.png';

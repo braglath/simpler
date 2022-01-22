@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/modules/new_project/controllers/new_project_controller.dart';
+import 'package:simpler/app/modules/project_management/controllers/project_management_controller.dart';
 import 'package:simpler/app/views/animations/fade_animation.dart';
 import 'package:simpler/app/views/custom%20widgets/avatar_choices.dart';
 import 'package:simpler/app/views/custom%20widgets/back_appbar.dart';
@@ -19,6 +20,7 @@ class ProjectAvatarView extends GetView<ProjectAvatarController> {
 
   final projectController =
       Get.put<NewProjectController>(NewProjectController());
+      final projectManagementController = Get.put<ProjectManagementController>(ProjectManagementController());
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +119,7 @@ class ProjectAvatarView extends GetView<ProjectAvatarController> {
                                     projectController.deadLineDate,
                                     DateTime.now(),
                                     controller.userAvatar.value);
+                                    
                               },
                               padding: const EdgeInsets.all(15),
                               child: Text(

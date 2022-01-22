@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import 'package:simpler/app/data/database/project_database.dart';
+import 'package:simpler/app/data/database/task_database.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 
 class HomeController extends GetxController {
@@ -17,6 +18,9 @@ class HomeController extends GetxController {
   final ScrollController scrollController = ScrollController();
   var project = [].obs;
   final deadlineProgress = 0.obs;
+  var taskToDo = [].obs;
+  var taskInProgress = [].obs;
+  var taskDone = [].obs;
 
   @override
   void onInit() {
@@ -81,13 +85,37 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     _timer.cancel();
-    scrollController.dispose();
   }
 
   Future refreshProjects() async {
     await ProjectDatabase.instance
         .readAllProjects()
         .then((value) => project.assignAll(value));
+  }
+
+  void refreshTasks(projectId) async {
+    await refreshTaskTODO(projectId);
+    await refreshTaskINPROGRESS(projectId);
+    await refreshTaskDONE(projectId);
+  }
+
+  Future refreshTaskTODO(int projectId) async {
+    final status = 'Todo';
+    final todo = await TaskDatabase.instance.readAllProjects(projectId, status);
+    taskToDo.value = todo;
+  }
+
+  Future refreshTaskINPROGRESS(int projectId) async {
+    final status = 'InProgress';
+    final inProgress =
+        await TaskDatabase.instance.readAllProjects(projectId, status);
+    taskInProgress.value = inProgress;
+  }
+
+  Future refreshTaskDONE(int projectId) async {
+    final status = 'Done';
+    final done = await TaskDatabase.instance.readAllProjects(projectId, status);
+    taskDone.value = done;
   }
 
   Future deleteProjects(id, index) async {

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
+import 'package:simpler/app/data/model/task_model.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_bottomsheet.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_dialogue.dart';
 
 class TaskCard extends StatelessWidget {
+  final String taskTitle;
   final Function()? onPressedConfirm;
   final Function()? onPressedCancel;
   final Function()? onTap1;
   final Function()? onTap2;
   final Function()? onTap3;
-  final String task;
   final int io;
   const TaskCard(
       {Key? key,
+      required this.taskTitle,
       required this.onPressedConfirm,
       required this.onPressedCancel,
-      required this.task,
       required this.onTap1,
       required this.onTap2,
       required this.onTap3,
@@ -49,9 +49,13 @@ class TaskCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  task,
-                  style: Theme.of(context).textTheme.headline4,
+                child: Column(
+                  children: [
+                    Text(
+                      taskTitle,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -88,6 +92,5 @@ class TaskCard extends StatelessWidget {
         )
       ],
     );
-    ;
   }
 }

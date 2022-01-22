@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:simpler/app/data/database/project_database.dart';
 
+import 'package:simpler/app/data/database/project_database.dart';
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/resources/usable_strings.dart';
@@ -129,7 +129,22 @@ class HomeView extends GetView<HomeController> {
     ];
 
     final List<Widget> recentProjects = [
-      const Heading(heading: CommonStrings.recentProjects),
+      Row(
+        children: [
+          const Heading(heading: CommonStrings.recentProjects),
+          const Spacer(),
+          GestureDetector(
+            onTap: () => print('recent project view all clicked'),
+            child: Text(
+              'View all',
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  ?.copyWith(fontStyle: FontStyle.italic),
+            ),
+          )
+        ],
+      ),
       const SizedBox(height: 15),
       const RecentProjects()
     ];
@@ -309,6 +324,7 @@ class EditNameField extends StatelessWidget {
                     controller: homeController.nameController,
                     maxlines: 1,
                     validator: (val) {},
+                    onSaved: (val) {},
                     textInputType: TextInputType.name),
               ),
               const SizedBox(height: 20),

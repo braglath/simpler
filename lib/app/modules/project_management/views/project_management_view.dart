@@ -1,11 +1,11 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:simpler/app/data/model/task_model.dart';
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
-import 'package:simpler/app/data/resources/usable_strings.dart';
-import 'package:simpler/app/modules/home/views/home_view.dart';
+import 'package:simpler/app/views/animations/fade_animation.dart';
 import 'package:simpler/app/views/custom%20widgets/Text_type_field.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_dialogue.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
@@ -26,19 +26,26 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
   @override
   Widget build(BuildContext context) {
     print('project id - $projectId');
-    controller.refreshToDoTask(projectId);
-    controller.refreshInProgressTask(projectId);
-    controller.refreshDoneTask(projectId);
+    // controller.refreshToDoTask(projectId);
+    // controller.refreshInProgressTask(projectId);
+    // controller.refreshDoneTask(projectId);
     return Obx(() {
       return Scaffold(
-          floatingActionButton: controller.taskToDo.value.isEmpty &&
-                  controller.taskInProgress.value.isEmpty
-              ? _fabBTN(context)
+          floatingActionButton:
+              controller.taskToDo.isEmpty && controller.taskInProgress.isEmpty
+                  ? _fabBTN(context)
+                  : const SizedBox.shrink(),
+          extendBody: true,
+          bottomNavigationBar: controller.showBottomSheet.isTrue
+              ? _bottomNavigationBar(context)
               : const SizedBox.shrink(),
           body: SafeArea(
             child: Stack(
               children: [
-                _mainBody(context),
+                SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    controller: controller.projectManagementScrollController,
+                    child: _mainBody(context)),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: SizedBox(
@@ -50,7 +57,8 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                               : 'Deadline - $deadline',
                           needBackBtn: true,
                           asset: asset,
-                          onActionTap: () {},
+                          onActionTap: () =>
+                              controller.refreshToDoTask(projectId),
                           onLeadingTap: () => Get.back(),
                         );
                       })),
@@ -59,6 +67,67 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
             ),
           ));
     });
+  }
+
+  Container _bottomNavigationBar(BuildContext context) {
+    return Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200.withOpacity(0.5),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(15)),
+                  gradient: const LinearGradient(colors: [
+                    Colors.white,
+                    ColorRes.purpleSecondaryBtnColor
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                ),
+                child: Center(
+                  child: RichText(
+                      text: TextSpan(
+                          text: 'To do - ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                          children: <TextSpan>[
+                        TextSpan(
+                          text: '${controller.taskToDo.length.toString()}  ',
+                          style:
+                              Theme.of(context).textTheme.headline3?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        TextSpan(
+                          text: 'In progress - ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text:
+                              '${controller.taskInProgress.length.toString()}  ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text: 'Done - ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text: controller.taskDone.length.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        )
+                      ])),
+                ));
   }
 
   Container _fabBTN(BuildContext context) {
@@ -167,20 +236,22 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                       ? controller.taskInProgress.value.length
                       : controller.taskDone.value.length,
               itemBuilder: (context, index) {
-                final task = io == 0
+                var task = io == 0
                     ? controller.taskToDo[index]
                     : io == 1
                         ? controller.taskInProgress[index]
                         : controller.taskDone[index];
                 return TaskCard(
+                    taskTitle: task.task,
                     onPressedConfirm: () =>
-                        controller.removeTask(task.id, index),
+                        controller.removeTask(task.id!, index),
                     onPressedCancel: () => Get.back(),
-                    task: task.task,
-                    onTap1: () => controller.onTap1(io, task.id, index,
+                    onTap1: () => controller.onTap1(io, task.id!, index,
                         task.projectId, task.projectTitle, task.task),
-                    onTap2: () => controller.onTap2(io, task.id, index),
-                    onTap3: () => controller.onTap3(io, task.id, index),
+                    onTap2: () => controller.onTap2(io, task.id!, index,
+                        projectId, task.projectTitle, task.task),
+                    onTap3: () =>
+                        controller.onTap3(io, task.id!, index, projectId),
                     io: io);
               },
             );
@@ -211,19 +282,19 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
         children: [
           Numbers(
             title: 'To do',
-            number: controller.taskToDo.value.length.toString(),
+            number: controller.taskToDo.length.toString(),
             iconAsset: AssetIcons.pendingProjects,
-            color: ColorRes.brown,
+            color: ColorRes.redErrorColor,
           ),
           Numbers(
             title: 'In progress',
-            number: controller.taskInProgress.value.length.toString(),
-            iconAsset: AssetIcons.completedProjects,
-            color: ColorRes.greenProgressColor,
+            number: controller.taskInProgress.length.toString(),
+            iconAsset: AssetIcons.inprogress,
+            color: ColorRes.brown,
           ),
           Numbers(
             title: 'Done',
-            number: controller.taskDone.value.length.toString(),
+            number: controller.taskDone.length.toString(),
             iconAsset: AssetIcons.completedProjects,
             color: ColorRes.greenProgressColor,
           ),
@@ -265,7 +336,7 @@ class ToDoHeading extends GetView<ProjectManagementController> {
           radius: 10.0,
           backgroundColor: ColorRes.brown,
           child: Center(child: Obx(() {
-            return Text(
+            return AutoSizeText(
               id == 0
                   ? controller.taskToDo.length.toString()
                   : id == 1
@@ -277,20 +348,46 @@ class ToDoHeading extends GetView<ProjectManagementController> {
           })),
         ),
         const Spacer(),
+        id == 0
+            ? GestureDetector(
+                onTap: () => CustomDialogue(
+                        title: 'Create Task',
+                        textConfirm: 'Confirm',
+                        textCancel: 'Cancel',
+                        onpressedConfirm: () =>
+                            controller.addTask(projectId, projectTitle),
+                        onpressedCancel: () => Get.back(),
+                        contentWidget: CreateTaskField(
+                          projectId: projectId,
+                          projectTitle: projectTitle,
+                        ),
+                        isDismissible: true)
+                    .showDialogue(),
+                child: const FaIcon(FontAwesomeIcons.plus, size: 18))
+            : const SizedBox.shrink(),
+        const SizedBox(width: 15),
+
         GestureDetector(
-            onTap: () => CustomDialogue(
-                    title: 'Create Task',
-                    textConfirm: 'Confirm',
-                    textCancel: 'Cancel',
-                    onpressedConfirm: () =>
-                        controller.addTask(projectId, projectTitle),
-                    onpressedCancel: () => Get.back(),
-                    contentWidget: const CreateTaskField(),
-                    isDismissible: true)
-                .showDialogue(),
-            child: id == 0
-                ? const FaIcon(FontAwesomeIcons.plus, size: 18)
-                : const SizedBox.shrink()),
+          onTap: () => CustomDialogue(
+                  title: 'Full Screen',
+                  textConfirm: 'Confirm',
+                  textCancel: 'Cancel',
+                  onpressedConfirm: () => {},
+                  onpressedCancel: () => Get.back(),
+                  contentWidget: Text(
+                    'Switch to full screen for better view!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline3?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic),
+                  ),
+                  isDismissible: true)
+              .showDialogue(),
+          child: const FaIcon(
+            FontAwesomeIcons.ellipsisH,
+            size: 18,
+          ),
+        ),
         const SizedBox(width: 15),
         // const FaIcon(FontAwesomeIcons.ellipsisH, size: 18),
         // const SizedBox(width: 15),
@@ -300,7 +397,11 @@ class ToDoHeading extends GetView<ProjectManagementController> {
 }
 
 class CreateTaskField extends GetView<ProjectManagementController> {
-  const CreateTaskField({Key? key}) : super(key: key);
+  final int projectId;
+  final String projectTitle;
+  const CreateTaskField(
+      {Key? key, required this.projectId, required this.projectTitle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -311,7 +412,8 @@ class CreateTaskField extends GetView<ProjectManagementController> {
         child: TextTypeField(
             controller: controller.newTaskController,
             maxlines: 3,
-            validator: (val) {},
+            validator: (val) => controller.taskValidator(val),
+            onSaved: (val) => controller.task = val!,
             textInputType: TextInputType.name),
       ),
     );

@@ -15,7 +15,6 @@ dependencies:
   auto_size_text: 3.0.0
   get_storage: 2.0.3
   sqflite: 2.0.2
-  liquid_progress_indicator: 0.4.0
   flutter:
     sdk: flutter
 

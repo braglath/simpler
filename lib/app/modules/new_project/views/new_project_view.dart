@@ -45,6 +45,7 @@ class NewProjectView extends GetView<NewProjectController> {
                   controller: controller.projectNameController,
                   maxlines: 1,
                   validator: (val) {},
+                  onSaved: (val) {},
                   textInputType: TextInputType.name),
               const SizedBox(height: 30),
               controller.showBtn.isTrue

@@ -43,6 +43,7 @@ class AskNameDartView extends GetView<AskNameDartController> {
                       controller: controller.userNameController,
                       maxlines: 1,
                       validator: (val) {},
+                      onSaved: (val) {},
                       textInputType: TextInputType.name),
                 ),
                 const SizedBox(height: 30),

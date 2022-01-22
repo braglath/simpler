@@ -59,7 +59,6 @@ class Task {
         TaskFields.projectId: projectId,
         TaskFields.projectTitle: projectTitle,
         TaskFields.task: task,
-        TaskFields.status:
-            status //? to conver a datetime object to a string we can use .toIso8601String()
+        TaskFields.status: status
       };
 }

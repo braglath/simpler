@@ -1,7 +1,5 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'package:simpler/app/data/model/project_model.dart';
 import 'package:simpler/app/data/model/task_model.dart';
 
 class TaskDatabase {
@@ -24,7 +22,7 @@ class TaskDatabase {
     //? to store data in a different location we can use path_provider
     final path = join(dbPath, filePath);
 
-    return await openDatabase(path, version: 1, onCreate: _createDB);
+    return await openDatabase(path, version: 2, onCreate: _createDB);
   }
 
   Future _createDB(Database db, int version) async {
@@ -49,14 +47,18 @@ CREATE TABLE $tableTask (
   Future<Task> create(Task task) async {
     final db = await instance.database;
 
-    // final json = project.toJson();
+    // final json = task.toJson();
+    // print('json - $json');
     // final columns =
-    //     '${TaskFields.title}, ${TaskFields.deadline}, ${TaskFields.createdTime}';
-    // final values = '${json[TaskFields.title]},${json[TaskFields.deadline]},${json[TaskFields.createdTime]}'
-    // final id = await db
-    //     .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
+    //     '${TaskFields.projectId},${TaskFields.projectTitle},${TaskFields.task},${TaskFields.status}';
+    // final values =
+    //     '${json[TaskFields.projectId]},${json[TaskFields.projectTitle]},${json[TaskFields.task]},${json[TaskFields.status]}';
+    // print('columns - $columns\nvalues - $values');
+    // final id =
+    //     await db.rawInsert('INSERT INTO $tableTask ($columns) VALUES($values)');
 
     final id = await db.insert(tableTask, task.toJson());
+    print(id);
     return task.copy(id: id);
   }
 
@@ -86,7 +88,7 @@ CREATE TABLE $tableTask (
     final result = await db.query(tableTask,
         columns: TaskFields.values,
         where:
-            '${TaskFields.id} = ? AND ${TaskFields.status} = ?', //? the ? will take the value below, id
+            '${TaskFields.projectId} = ? AND ${TaskFields.status} = ?', //? the ? will take the value below, id
         whereArgs: [id, status],
         orderBy: orderBy);
     // final result = await db.query(tableTask, orderBy: orderBy);
