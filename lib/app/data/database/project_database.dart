@@ -32,8 +32,7 @@ class ProjectDatabase {
     // final numberType = 'INTEGER NOT NULL';
     final textType = 'TEXT NOT NULL';
 
-    await db.execute(
-        '''
+    await db.execute('''
 CREATE TABLE $tableProjects (
   ${ProjectFields.id} $idType,
   ${ProjectFields.isCompleted} $boolType,
@@ -85,7 +84,7 @@ CREATE TABLE $tableProjects (
     final orderBy = '${ProjectFields.createdTime} DESC';
     //? you can also create your own query statement
     // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
-    final result = await db.query(tableProjects, orderBy: orderBy);
+    final result = await db.query(tableProjects, orderBy: orderBy, limit: 5);
     return result.map((json) => Project.fromJson(json)).toList();
   }
 

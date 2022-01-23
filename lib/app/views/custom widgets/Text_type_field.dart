@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import 'package:simpler/app/data/resources/colour_resources.dart';
-import 'package:simpler/app/modules/project_management/controllers/project_management_controller.dart';
-
 class TextTypeField extends StatelessWidget {
   TextEditingController? controller;
   final int? maxlines;

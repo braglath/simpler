@@ -173,33 +173,35 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                   const SizedBox(height: 80),
                   _myProjCompletedNPending(),
                   const Separator(),
-                  _todo(context, 0),
+                  _todo(context, 0, orientation),
                   const Separator(),
-                  _todo(context, 1),
+                  _todo(context, 1, orientation),
                   const Separator(),
-                  _todo(context, 2),
+                  _todo(context, 2, orientation),
                 ],
               )
             : Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(width: 10),
-                  Expanded(child: _todo(context, 0)),
+                  Expanded(child: _todo(context, 0, orientation)),
                   const SizedBox(width: 20),
-                  Expanded(child: _todo(context, 1)),
+                  Expanded(child: _todo(context, 1, orientation)),
                   const SizedBox(width: 20),
-                  Expanded(child: _todo(context, 2)),
+                  Expanded(child: _todo(context, 2, orientation)),
                   const SizedBox(width: 10),
                 ],
               ),
       );
 
-  Padding _todo(BuildContext context, int io) {
+  Padding _todo(BuildContext context, int io, Orientation orientation) {
     return Padding(
       padding: const EdgeInsets.only(top: 5, bottom: 10),
       child: Center(
         child: Container(
-          height: 415,
+          height: orientation == Orientation.portrait
+              ? 415
+              : MediaQuery.of(context).size.height - 10,
           width: MediaQuery.of(context).size.width - 50,
           decoration: BoxDecoration(
               color: Colors.grey.shade200.withOpacity(0.5),
@@ -215,17 +217,17 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                     color: ColorRes.purpleSecondaryBtnColor.withOpacity(0.8),
                     spreadRadius: 0)
               ]),
-          child: _insideToDo(context, io),
+          child: _insideToDo(context, io, orientation),
         ),
       ),
     );
   }
 
-  Column _insideToDo(BuildContext context, int io) {
+  Column _insideToDo(BuildContext context, int io, Orientation orientation) {
     return Column(
       children: [
         Container(
-          height: 50,
+          height: orientation == Orientation.portrait ? 50 : 35,
           decoration: BoxDecoration(
             color: Colors.grey.shade200.withOpacity(0.5),
             borderRadius: const BorderRadius.only(
@@ -242,7 +244,7 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
           ),
         ),
         SizedBox(
-          height: 340,
+          height: orientation == Orientation.portrait ? 340 : 290,
           child: Obx(() {
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
