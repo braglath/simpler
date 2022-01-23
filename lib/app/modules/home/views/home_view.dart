@@ -181,19 +181,25 @@ class HomeView extends GetView<HomeController> {
   Row _myProjCompletedNPending() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
-        CompletedNPending(
-          title: CommonStrings.pendingProjects,
-          number: '10',
-          iconAsset: AssetIcons.pendingProjects,
-          color: ColorRes.brown,
-        ),
-        CompletedNPending(
-          title: CommonStrings.completedProjects,
-          number: '2',
-          iconAsset: AssetIcons.completedProjects,
-          color: ColorRes.greenProgressColor,
-        ),
+      children: [
+        Obx(() {
+          return CompletedNPending(
+            title: CommonStrings.pendingProjects,
+            number: (controller.project.length -
+                    controller.completedProjects.length)
+                .toString(),
+            iconAsset: AssetIcons.pendingProjects,
+            color: ColorRes.brown,
+          );
+        }),
+        Obx(() {
+          return CompletedNPending(
+            title: CommonStrings.completedProjects,
+            number: controller.completedProjects.length.toString(),
+            iconAsset: AssetIcons.completedProjects,
+            color: ColorRes.greenProgressColor,
+          );
+        }),
       ],
     );
   }
@@ -321,6 +327,7 @@ class EditNameField extends StatelessWidget {
               Form(
                 key: homeController.formState,
                 child: TextTypeField(
+                    task: '',
                     controller: homeController.nameController,
                     maxlines: 1,
                     validator: (val) {},

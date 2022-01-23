@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fullscreen/fullscreen.dart';
 import 'package:get/get.dart';
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
@@ -20,6 +21,8 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
   String get asset => project['asset'];
   String get deadline => project['projectDeadline'];
   int get projectId => project['projectId'];
+  DateTime get projectDeadLine => project['projectDeadLine'];
+  DateTime get projectCreatedTime => project['projectCreatedTime'];
 
   @override
   Widget build(BuildContext context) {
@@ -27,105 +30,106 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
     // controller.refreshToDoTask(projectId);
     // controller.refreshInProgressTask(projectId);
     // controller.refreshDoneTask(projectId);
-    return Obx(() {
-      return Scaffold(
-          floatingActionButton:
-              controller.taskToDo.isEmpty && controller.taskInProgress.isEmpty
-                  ? _fabBTN(context)
-                  : const SizedBox.shrink(),
-          extendBody: true,
-          bottomNavigationBar: controller.showBottomSheet.isTrue
-              ? _bottomNavigationBar(context)
-              : const SizedBox.shrink(),
-          body: SafeArea(
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: controller.projectManagementScrollController,
-                    child: _mainBody(context)),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SizedBox(
-                      height: 50,
-                      child: Obx(() {
-                        return FloatingAppBar(
-                          title: controller.showTitle.isTrue
-                              ? title
-                              : 'Deadline - $deadline',
-                          needBackBtn: true,
-                          asset: asset,
-                          onActionTap: () =>
-                              controller.refreshToDoTask(projectId),
-                          onLeadingTap: () => Get.back(),
-                        );
-                      })),
-                ),
-              ],
-            ),
-          ));
+    return OrientationBuilder(builder: (context, orientation) {
+      return Obx(() {
+        return Scaffold(
+            floatingActionButton:
+                controller.taskToDo.isEmpty && controller.taskInProgress.isEmpty
+                    ? _fabBTN(context)
+                    : const SizedBox.shrink(),
+            extendBody: true,
+            bottomNavigationBar: controller.showBottomSheet.isTrue
+                ? _bottomNavigationBar(context)
+                : const SizedBox.shrink(),
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      controller: controller.projectManagementScrollController,
+                      child: _mainBody(context, orientation)),
+                  orientation == Orientation.portrait
+                      ? Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: SizedBox(
+                              height: 50,
+                              child: Obx(() {
+                                return FloatingAppBar(
+                                  title: controller.showTitle.isTrue
+                                      ? title
+                                      : 'Deadline - $deadline',
+                                  needBackBtn: true,
+                                  asset: asset,
+                                  onActionTap: () =>
+                                      controller.refreshToDoTask(projectId),
+                                  onLeadingTap: () => Get.back(),
+                                );
+                              })),
+                        )
+                      : const SizedBox.shrink(),
+                ],
+              ),
+            ));
+      });
     });
   }
 
   Container _bottomNavigationBar(BuildContext context) {
     return Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200.withOpacity(0.5),
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(15)),
-                  gradient: const LinearGradient(colors: [
-                    Colors.white,
-                    ColorRes.purpleSecondaryBtnColor
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200.withOpacity(0.5),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+          gradient: const LinearGradient(
+              colors: [Colors.white, ColorRes.purpleSecondaryBtnColor],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+        ),
+        child: Center(
+          child: RichText(
+              text: TextSpan(
+                  text: 'To do - ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: '${controller.taskToDo.length.toString()}  ',
+                  style: Theme.of(context).textTheme.headline3?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
-                child: Center(
-                  child: RichText(
-                      text: TextSpan(
-                          text: 'To do - ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                          children: <TextSpan>[
-                        TextSpan(
-                          text: '${controller.taskToDo.length.toString()}  ',
-                          style:
-                              Theme.of(context).textTheme.headline3?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        TextSpan(
-                          text: 'In progress - ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text:
-                              '${controller.taskInProgress.length.toString()}  ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text: 'Done - ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text: controller.taskDone.length.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        )
-                      ])),
-                ));
+                TextSpan(
+                  text: 'In progress - ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: '${controller.taskInProgress.length.toString()}  ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: 'Done - ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: controller.taskDone.length.toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                )
+              ])),
+        ));
   }
 
   Container _fabBTN(BuildContext context) {
@@ -146,7 +150,8 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
             ]),
         child: FloatingActionButton.extended(
           heroTag: null,
-          onPressed: () => Get.back(),
+          onPressed: () => controller.completedProject(
+              projectId, title, asset, projectDeadLine, projectCreatedTime),
           label: Text(
             'Project Completed',
             style: Theme.of(context).textTheme.caption?.copyWith(
@@ -158,21 +163,35 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
         ));
   }
 
-  Widget _mainBody(BuildContext context) => SingleChildScrollView(
+  Widget _mainBody(BuildContext context, Orientation orientation) =>
+      SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 80),
-            _myProjCompletedNPending(),
-            const Separator(),
-            _todo(context, 0),
-            const Separator(),
-            _todo(context, 1),
-            const Separator(),
-            _todo(context, 2),
-          ],
-        ),
+        child: orientation == Orientation.portrait
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 80),
+                  _myProjCompletedNPending(),
+                  const Separator(),
+                  _todo(context, 0),
+                  const Separator(),
+                  _todo(context, 1),
+                  const Separator(),
+                  _todo(context, 2),
+                ],
+              )
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 10),
+                  Expanded(child: _todo(context, 0)),
+                  const SizedBox(width: 20),
+                  Expanded(child: _todo(context, 1)),
+                  const SizedBox(width: 20),
+                  Expanded(child: _todo(context, 2)),
+                  const SizedBox(width: 10),
+                ],
+              ),
       );
 
   Padding _todo(BuildContext context, int io) {
@@ -250,6 +269,35 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                         projectId, task.projectTitle, task.task),
                     onTap3: () =>
                         controller.onTap3(io, task.id!, index, projectId),
+                    onTap4: () {
+                      Get.back();
+                      CustomDialogue(
+                              title: 'Edit Task',
+                              textConfirm: 'Confirm',
+                              textCancel: 'Cancel',
+                              onpressedConfirm: () => controller.editTask(
+                                    task.id,
+                                    projectId,
+                                    task.projectTitle,
+                                    controller.newTaskController.text,
+                                    io == 0
+                                        ? 'Todo'
+                                        : io == 1
+                                            ? 'InProgress'
+                                            : 'Done',
+                                  ),
+                              onpressedCancel: () => Get.back(),
+                              contentWidget: TextTypeField(
+                                controller: controller.newTaskController,
+                                maxlines: 5,
+                                validator: (val) => null,
+                                onSaved: (val) => controller.task = val!,
+                                textInputType: TextInputType.name,
+                                task: task.task,
+                              ),
+                              isDismissible: true)
+                          .showDialogue();
+                    },
                     io: io);
               },
             );
@@ -370,8 +418,9 @@ class ToDoHeading extends GetView<ProjectManagementController> {
                   title: 'Full Screen',
                   textConfirm: 'Confirm',
                   textCancel: 'Cancel',
-                  onpressedConfirm: () => {},
-                  onpressedCancel: () => Get.back(),
+                  onpressedConfirm: () => Orientation.landscape,
+                  onpressedCancel: () async =>
+                      await FullScreen.enterFullScreen(FullScreenMode.EMERSIVE),
                   contentWidget: Text(
                     'Switch to full screen for better view!',
                     textAlign: TextAlign.center,
@@ -408,6 +457,7 @@ class CreateTaskField extends GetView<ProjectManagementController> {
       child: Form(
         key: controller.newTaskFormKey,
         child: TextTypeField(
+            task: '',
             controller: controller.newTaskController,
             maxlines: 3,
             validator: (val) => controller.taskValidator(val),

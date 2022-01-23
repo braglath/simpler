@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:simpler/app/data/resources/colour_resources.dart';
 
 class Separator extends StatelessWidget {

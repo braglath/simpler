@@ -11,6 +11,7 @@ class TaskCard extends StatelessWidget {
   final Function()? onTap1;
   final Function()? onTap2;
   final Function()? onTap3;
+  final Function()? onTap4;
   final int io;
   const TaskCard(
       {Key? key,
@@ -20,6 +21,7 @@ class TaskCard extends StatelessWidget {
       required this.onTap1,
       required this.onTap2,
       required this.onTap3,
+      required this.onTap4,
       required this.io})
       : super(key: key);
 
@@ -65,7 +67,8 @@ class TaskCard extends StatelessWidget {
             context: context,
             icon1: FontAwesomeIcons.tasks,
             icon2: FontAwesomeIcons.checkSquare,
-            icon3: FontAwesomeIcons.trash,
+            icon3: FontAwesomeIcons.trashAlt,
+            icon4: FontAwesomeIcons.edit,
             title1: io == 0
                 ? "Move to 'In progress' section"
                 : io == 1
@@ -77,9 +80,11 @@ class TaskCard extends StatelessWidget {
                     ? "Move to 'To do' section"
                     : "Move to 'In progress' section",
             titile3: 'Delete task',
+            titile4: 'Edit task',
             onTap1: onTap1,
             onTap2: onTap2,
             onTap3: onTap3,
+            onTap4: onTap4,
           ).show(),
           child: const Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),

@@ -1,6 +1,8 @@
 class AssetIcons {
   static const brandLogo = 'assets/icons/brand.png';
 
+  static const grafiti = 'assets/lottie/grafiti.json';
+
   static const drawer = 'assets/icons/drawer.png';
   static const totalProjects = 'assets/icons/totalProjects.png';
   static const completedProjects = 'assets/icons/completedProjects.png';

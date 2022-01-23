@@ -43,6 +43,7 @@ class NewProjectView extends GetView<NewProjectController> {
               ),
               TextTypeField(
                   controller: controller.projectNameController,
+                  task: '',
                   maxlines: 1,
                   validator: (val) {},
                   onSaved: (val) {},

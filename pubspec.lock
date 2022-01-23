@@ -144,6 +144,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "9.2.0"
+  fullscreen:
+    dependency: "direct main"
+    description:
+      name: fullscreen
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   get:
     dependency: "direct main"
     description:
@@ -379,7 +386,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.8"
   xdg_directories:
     dependency: transitive
     description:

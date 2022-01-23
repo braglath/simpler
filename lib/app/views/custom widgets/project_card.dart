@@ -44,9 +44,12 @@ class ProjectCard extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Pending',
+              project.isCompleted ? 'Pending' : 'Completed',
               style: Theme.of(context).textTheme.caption?.copyWith(
-                  color: ColorRes.redErrorColor, fontWeight: FontWeight.bold),
+                  color: project.isCompleted
+                      ? ColorRes.redErrorColor
+                      : ColorRes.greenProgressColor,
+                  fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 10),
           ],
@@ -81,6 +84,8 @@ class ProjectCard extends StatelessWidget {
                       isDismissible: true)
                   .showDialogue(),
               onTap: () {
+                print(
+                    'project - ${project.isCompleted}\n${project.title}\n${project.avatar}\n${projectDeadline}\n${project.id}\n${project.deadline}\n${project.createdTime}');
                 projectManagerController.refreshToDoTask(project.id!);
                 projectManagerController.refreshInProgressTask(project.id!);
                 projectManagerController.refreshDoneTask(project.id!);
@@ -88,7 +93,9 @@ class ProjectCard extends StatelessWidget {
                   'title': project.title,
                   'asset': project.avatar,
                   'projectDeadline': projectDeadline,
-                  'projectId': project.id
+                  'projectId': project.id,
+                  'projectDeadLine': project.deadline,
+                  'projectCreatedTime': project.createdTime
                 });
               },
               enableFeedback: true,

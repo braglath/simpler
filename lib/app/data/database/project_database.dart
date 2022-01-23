@@ -32,7 +32,8 @@ class ProjectDatabase {
     // final numberType = 'INTEGER NOT NULL';
     final textType = 'TEXT NOT NULL';
 
-    await db.execute('''
+    await db.execute(
+        '''
 CREATE TABLE $tableProjects (
   ${ProjectFields.id} $idType,
   ${ProjectFields.isCompleted} $boolType,
@@ -88,9 +89,24 @@ CREATE TABLE $tableProjects (
     return result.map((json) => Project.fromJson(json)).toList();
   }
 
+  //? to read all projects
+  Future<List<Project>> readCompletedProjects() async {
+    //? you can add more fields next to tableProjects inside db.query
+    final db = await instance.database;
+    final orderBy = '${ProjectFields.createdTime} DESC';
+    //? you can also create your own query statement
+    // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
+    final result = await db.query(tableProjects,
+        where: '${ProjectFields.isCompleted} = ?',
+        whereArgs: [0],
+        orderBy: orderBy);
+    return result.map((json) => Project.fromJson(json)).toList();
+  }
+
   //? to update project
   Future<int> update(Project project) async {
     final db = await instance.database;
+    print('project - $project');
     //? like before you can also use your own statement by using rawupdate and pass sql statement inside
     return db.update(tableProjects, project.toJson(),
         where: '${ProjectFields.id} = ?', whereArgs: [project.id]);

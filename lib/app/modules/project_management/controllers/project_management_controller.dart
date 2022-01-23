@@ -4,9 +4,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
+import 'package:simpler/app/data/database/project_database.dart';
 
 import 'package:simpler/app/data/database/task_database.dart';
+import 'package:simpler/app/data/model/project_model.dart';
 import 'package:simpler/app/data/model/task_model.dart';
+import 'package:simpler/app/modules/home/controllers/home_controller.dart';
 
 class ProjectManagementController extends GetxController {
   final showTitle = false.obs;
@@ -18,12 +21,14 @@ class ProjectManagementController extends GetxController {
   var taskToDo = [].obs;
   var taskInProgress = [].obs;
   var taskDone = [].obs;
-
   final showBottomSheet = false.obs;
+
+  final homeController = Get.put<HomeController>(HomeController());
 
   @override
   void onInit() {
     super.onInit();
+
     projectManagementScrollController.addListener(() {
       final scrollListener =
           projectManagementScrollController.position.userScrollDirection ==
@@ -47,6 +52,50 @@ class ProjectManagementController extends GetxController {
       } else {
         showTitle.value = false;
       }
+    });
+  }
+
+  Future completedProject(
+    int projectId,
+    String projectTitle,
+    String projectAvatar,
+    DateTime projectDeadLine,
+    DateTime projectCreatedTime,
+  ) async {
+    final Project project = Project(
+      id: projectId,
+      isCompleted: false,
+      title: projectTitle,
+      avatar: projectAvatar,
+      deadline: projectDeadLine,
+      createdTime: projectCreatedTime,
+    );
+    await ProjectDatabase.instance.update(project).whenComplete(() {
+      homeController.refreshProjects();
+      homeController.refreshCompletedProjects();
+      Get.back();
+    });
+  }
+
+  Future editTask(
+    int taskId,
+    int projectId,
+    String projectTitle,
+    String projectTask,
+    String status,
+  ) async {
+    final Task tasks = Task(
+        id: taskId,
+        projectId: projectId,
+        projectTitle: projectTitle,
+        task: projectTask,
+        status: status);
+    await TaskDatabase.instance.update(tasks).then((value) {
+      refreshToDoTask(projectId);
+      refreshInProgressTask(projectId);
+      refreshDoneTask(projectId);
+    }).whenComplete(() {
+      Get.back();
     });
   }
 

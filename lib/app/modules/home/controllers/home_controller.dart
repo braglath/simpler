@@ -21,11 +21,13 @@ class HomeController extends GetxController {
   var taskToDo = [].obs;
   var taskInProgress = [].obs;
   var taskDone = [].obs;
+  var completedProjects = [].obs;
 
   @override
   void onInit() {
     super.onInit();
     refreshProjects();
+    refreshCompletedProjects();
     currentDate();
     _timer = Timer.periodic(const Duration(seconds: 8), (Timer t) {
       timing = timing + 1;
@@ -91,6 +93,11 @@ class HomeController extends GetxController {
     await ProjectDatabase.instance
         .readAllProjects()
         .then((value) => project.assignAll(value));
+  }
+
+  Future refreshCompletedProjects() async {
+    final completed = await ProjectDatabase.instance.readCompletedProjects();
+    completedProjects.value = completed;
   }
 
   void refreshTasks(projectId) async {
