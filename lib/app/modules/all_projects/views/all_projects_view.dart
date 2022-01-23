@@ -48,17 +48,19 @@ class AllProjectsView extends GetView<AllProjectsController> {
         );
       });
 
-  FloatingActionButton _fab() {
-    return FloatingActionButton(
-      mini: true,
-      child: FaIcon(
-        controller.scrollToBottom.isTrue
-            ? FontAwesomeIcons.chevronDown
-            : FontAwesomeIcons.chevronUp,
-        color: ColorRes.pureWhite,
-      ),
-      onPressed: () => controller.scroll(),
-    );
+  Widget _fab() {
+    return controller.allProjectsList.length > 5
+        ? FloatingActionButton(
+            mini: true,
+            child: FaIcon(
+              controller.scrollToBottom.isTrue
+                  ? FontAwesomeIcons.chevronDown
+                  : FontAwesomeIcons.chevronUp,
+              color: ColorRes.pureWhite,
+            ),
+            onPressed: () => controller.scroll(),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _mainBody(BuildContext context) => SafeArea(

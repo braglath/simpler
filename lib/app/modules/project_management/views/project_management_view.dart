@@ -32,8 +32,16 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
     return OrientationBuilder(builder: (context, orientation) {
       return Obx(() {
         return Scaffold(
-            floatingActionButton:
-                controller.taskToDo.isEmpty && controller.taskInProgress.isEmpty
+            floatingActionButton: orientation == Orientation.landscape
+                ? FloatingActionButton(
+                    onPressed: () => controller.changeToPortrait(),
+                    child: const FaIcon(
+                      FontAwesomeIcons.expandAlt,
+                      color: ColorRes.pureWhite,
+                    ),
+                  )
+                : controller.taskToDo.isEmpty &&
+                        controller.taskInProgress.isEmpty
                     ? _fabBTN(context)
                     : const SizedBox.shrink(),
             extendBody: true,
@@ -251,6 +259,7 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
             projectId: projectId,
             projectTitle: title,
             id: io,
+            orientation: orientation,
           ),
         ),
         SizedBox(
@@ -366,11 +375,13 @@ class ToDoHeading extends GetView<ProjectManagementController> {
   final int projectId;
   final String projectTitle;
   final int id;
+  final Orientation orientation;
   const ToDoHeading(
       {Key? key,
       required this.projectId,
       required this.projectTitle,
-      required this.id})
+      required this.id,
+      required this.orientation})
       : super(key: key);
 
   @override
@@ -426,23 +437,30 @@ class ToDoHeading extends GetView<ProjectManagementController> {
         const SizedBox(width: 15),
 
         GestureDetector(
-          onTap: () => CustomDialogue(
-                  title: 'Full Screen',
-                  textConfirm: 'Confirm',
-                  textCancel: 'Cancel',
-                  onpressedConfirm: () => controller.changeOrientation(),
-                  onpressedCancel: () => Get.back(),
-                  contentWidget: Text(
-                    'Switch to full screen for more screen real estate',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline3?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic),
-                  ),
-                  isDismissible: true)
-              .showDialogue(),
+          onTap: () => controller.changeOrientation(),
+
+          // CustomDialogue(
+          //         title: orientation == Orientation.portrait
+          //             ? 'Landscape'
+          //             : 'Portrait',
+          //         textConfirm: 'Confirm',
+          //         textCancel: 'Cancel',
+          //         onpressedConfirm: () => controller.changeOrientation(),
+          //         onpressedCancel: () => Get.back(),
+          //         contentWidget: Text(
+          //           orientation == Orientation.portrait
+          //               ? 'Switch to landscape for more screen real estate'
+          //               : 'Switch back to portrait',
+          //           textAlign: TextAlign.center,
+          //           style: Theme.of(context).textTheme.headline3?.copyWith(
+          //               fontWeight: FontWeight.bold,
+          //               fontStyle: FontStyle.italic),
+          //         ),
+          //         isDismissible: true)
+          //     .showDialogue(),
+
           child: const FaIcon(
-            FontAwesomeIcons.ellipsisH,
+            FontAwesomeIcons.expandAlt,
             size: 18,
           ),
         ),

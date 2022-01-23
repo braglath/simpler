@@ -66,15 +66,22 @@ class ProjectManagementController extends GetxController {
       changeOrientationtoLandscape.value = true;
       print(changeOrientationtoLandscape.value);
       SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
-      Get.back();
+      // Get.back();
       await FullScreen.enterFullScreen(FullScreenMode.EMERSIVE);
     } else {
       print(changeOrientationtoLandscape.value);
       changeOrientationtoLandscape.value = false;
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-      Get.back();
+      // Get.back();
       await FullScreen.exitFullScreen();
     }
+  }
+
+  void changeToPortrait() async {
+    print(changeOrientationtoLandscape.value);
+    changeOrientationtoLandscape.value = false;
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await FullScreen.exitFullScreen();
   }
 
   Future completedProject(
