@@ -112,7 +112,17 @@ class ChooseAvatarView extends GetView<ChooseAvatarController> {
                               gradientColor: ColorRes.purpleSecondaryBtnColor),
                         ),
                       )
-                    : const SizedBox.shrink()
+                    : const SizedBox.shrink(),
+                const SizedBox(height: 50),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Hero(
+                      tag: 'logo',
+                      child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: Image.asset(AssetIcons.brandLogo))),
+                ),
               ],
             );
           }),
@@ -155,20 +165,22 @@ class PickedAvatar extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        CircleAvatar(
-          radius: 25.0,
-          backgroundColor: ColorRes.purpleSecondaryBtnColor,
-          child: Center(
-            child: Image.asset(
-              controller.onTap.isTrue
-                  ? controller.userAvatar.value
-                  : AssetIcons.male1,
-              fit: BoxFit.contain,
-              height: 35,
-              width: 35,
+        Obx(() {
+          return CircleAvatar(
+            radius: 25.0,
+            backgroundColor: ColorRes.purpleSecondaryBtnColor,
+            child: Center(
+              child: Image.asset(
+                controller.onTap.isTrue
+                    ? controller.userAvatar.value
+                    : AssetIcons.male1,
+                fit: BoxFit.contain,
+                height: 35,
+                width: 35,
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }

@@ -11,6 +11,7 @@ abstract class Routes {
   static const ASK_NAME_DART = _Paths.ASK_NAME_DART;
   static const CHOOSE_AVATAR = _Paths.CHOOSE_AVATAR;
   static const PROJECT_MANAGEMENT = _Paths.PROJECT_MANAGEMENT;
+  static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const ASK_NAME_DART = '/ask-name-dart';
   static const CHOOSE_AVATAR = '/choose-avatar';
   static const PROJECT_MANAGEMENT = '/project-management';
+  static const SPLASH_SCREEN = '/splash-screen';
 }

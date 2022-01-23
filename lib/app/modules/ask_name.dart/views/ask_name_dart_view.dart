@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:simpler/app/data/resources/assets_strings.dart';
 
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/routes/app_pages.dart';
@@ -32,7 +33,18 @@ class AskNameDartView extends GetView<AskNameDartController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 100),
-                const Heading(heading: 'Enter Name'),
+                Row(
+                  children: [
+                    const Heading(heading: 'Enter Name'),
+                    const Spacer(),
+                    Hero(
+                        tag: 'logo',
+                        child: SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: Image.asset(AssetIcons.brandLogo))),
+                  ],
+                ),
                 const SizedBox(height: 30),
                 const FormFieldHeading(
                   title: 'How can we call you? ______',
@@ -68,7 +80,7 @@ class AskNameDartView extends GetView<AskNameDartController> {
                               gradientColor: ColorRes.purpleSecondaryBtnColor),
                         ),
                       )
-                    : const SizedBox.shrink()
+                    : const SizedBox.shrink(),
               ],
             );
           }),
