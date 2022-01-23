@@ -77,7 +77,7 @@ CREATE TABLE $tableProjects (
     }
   }
 
-  //? to read all projects
+  //? to read projects limit by 5
   Future<List<Project>> readAllProjects() async {
     //? you can add more fields next to tableProjects inside db.query
     final db = await instance.database;
@@ -85,6 +85,17 @@ CREATE TABLE $tableProjects (
     //? you can also create your own query statement
     // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
     final result = await db.query(tableProjects, orderBy: orderBy, limit: 5);
+    return result.map((json) => Project.fromJson(json)).toList();
+  }
+
+  //? to fetch all projects
+  Future<List<Project>> fetchAllProjects() async {
+    //? you can add more fields next to tableProjects inside db.query
+    final db = await instance.database;
+    final orderBy = '${ProjectFields.createdTime} DESC';
+    //? you can also create your own query statement
+    // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
+    final result = await db.query(tableProjects, orderBy: orderBy);
     return result.map((json) => Project.fromJson(json)).toList();
   }
 

@@ -1,14 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:fullscreen/fullscreen.dart';
 import 'package:get/get.dart';
-import 'package:simpler/app/data/database/project_database.dart';
 
+import 'package:simpler/app/data/database/project_database.dart';
 import 'package:simpler/app/data/database/task_database.dart';
 import 'package:simpler/app/data/model/project_model.dart';
 import 'package:simpler/app/data/model/task_model.dart';
+import 'package:simpler/app/modules/all_projects/controllers/all_projects_controller.dart';
 import 'package:simpler/app/modules/home/controllers/home_controller.dart';
 
 class ProjectManagementController extends GetxController {
@@ -22,8 +25,11 @@ class ProjectManagementController extends GetxController {
   var taskInProgress = [].obs;
   var taskDone = [].obs;
   final showBottomSheet = false.obs;
-
+  final changeOrientationtoLandscape = false.obs;
   final homeController = Get.put<HomeController>(HomeController());
+  final allProjectsController =
+      Get.put<AllProjectsController>(AllProjectsController());
+  final showGrafitiLottie = false.obs;
 
   @override
   void onInit() {
@@ -55,6 +61,22 @@ class ProjectManagementController extends GetxController {
     });
   }
 
+  void changeOrientation() async {
+    if (changeOrientationtoLandscape.isFalse) {
+      changeOrientationtoLandscape.value = true;
+      print(changeOrientationtoLandscape.value);
+      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+      Get.back();
+      await FullScreen.enterFullScreen(FullScreenMode.EMERSIVE);
+    } else {
+      print(changeOrientationtoLandscape.value);
+      changeOrientationtoLandscape.value = false;
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+      Get.back();
+      await FullScreen.exitFullScreen();
+    }
+  }
+
   Future completedProject(
     int projectId,
     String projectTitle,
@@ -62,6 +84,8 @@ class ProjectManagementController extends GetxController {
     DateTime projectDeadLine,
     DateTime projectCreatedTime,
   ) async {
+    showGrafitiLottie.value = true;
+
     final Project project = Project(
       id: projectId,
       isCompleted: false,
@@ -73,7 +97,9 @@ class ProjectManagementController extends GetxController {
     await ProjectDatabase.instance.update(project).whenComplete(() {
       homeController.refreshProjects();
       homeController.refreshCompletedProjects();
-      Get.back();
+      allProjectsController.getAllProjectsList();
+      Future.delayed(const Duration(seconds: 2), () => Get.back())
+          .whenComplete(() => showGrafitiLottie.value = false);
     });
   }
 

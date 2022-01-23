@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/routes/app_pages.dart';
 

@@ -9,14 +9,11 @@ import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/resources/usable_strings.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/routes/app_pages.dart';
-import 'package:simpler/app/views/custom%20widgets/Text_type_field.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
-import 'package:simpler/app/views/custom%20widgets/form_field_heading.dart';
-import 'package:simpler/app/views/custom%20widgets/project_card.dart';
-import 'package:simpler/app/views/custom%20widgets/separator.dart';
 import 'package:simpler/app/views/custom%20widgets/total_projects_card.dart';
+import 'package:simpler/app/views/ui%20widgets/projects_list.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -34,7 +31,7 @@ class HomeView extends GetView<HomeController> {
   Scaffold _homeScaffold(BuildContext context, double height, double width) =>
       Scaffold(
         backgroundColor: ColorRes.scaffoldBG,
-        floatingActionButton: _fabBTN(context),
+        floatingActionButton: fabBTN(context),
         body: SafeArea(
           child: Stack(
             children: [
@@ -48,7 +45,7 @@ class HomeView extends GetView<HomeController> {
                       title: controller.date.value,
                       needBackBtn: false,
                       asset: '',
-                      onActionTap: () => controller.animatedContainer(),
+                      onActionTap: () => print('action button tapped'),
                       onLeadingTap: () async => await ProjectDatabase.instance
                           .close()
                           .whenComplete(
@@ -62,7 +59,7 @@ class HomeView extends GetView<HomeController> {
         ),
       );
 
-  Container _fabBTN(BuildContext context) {
+  Container fabBTN(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
             color: Colors.grey.shade200.withOpacity(0.5),
@@ -134,7 +131,7 @@ class HomeView extends GetView<HomeController> {
           const Heading(heading: CommonStrings.recentProjects),
           const Spacer(),
           GestureDetector(
-            onTap: () => print('recent project view all clicked'),
+            onTap: () => Get.toNamed(Routes.ALL_PROJECTS),
             child: Text(
               'View all',
               style: Theme.of(context)
@@ -146,7 +143,12 @@ class HomeView extends GetView<HomeController> {
         ],
       ),
       const SizedBox(height: 15),
-      const RecentProjects()
+      Obx(() {
+        return RecentProjects(
+          itemCount: controller.project.length,
+          project: controller.project,
+        );
+      })
     ];
 
     return Column(
@@ -207,31 +209,6 @@ class HomeView extends GetView<HomeController> {
 
 class EditName {}
 
-class RecentProjects extends GetView<HomeController> {
-  const RecentProjects({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            // print('project index - $index');
-            final project = controller.project[index];
-            return ProjectCard(
-              project: project,
-              index: index,
-            );
-          },
-          separatorBuilder: (context, index) {
-            return const Separator();
-          },
-          itemCount: controller.project.length);
-    });
-  }
-}
-
 class CompletedNPending extends StatelessWidget {
   final String title;
   final String number;
@@ -281,81 +258,5 @@ class CompletedNPending extends StatelessWidget {
           ],
         ),
         gradientColor: color);
-  }
-}
-
-class EditNameField extends StatelessWidget {
-  final HomeController homeController;
-  const EditNameField({Key? key, required this.homeController})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return AnimatedContainer(
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-            color: Colors.grey.shade200.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(30),
-            gradient: const LinearGradient(
-                colors: [Colors.white, ColorRes.purpleSecondaryBtnColor],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter),
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(0, 5),
-                  blurRadius: 10,
-                  color: ColorRes.purpleSecondaryBtnColor.withOpacity(0.8),
-                  spreadRadius: 0)
-            ]),
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.fastOutSlowIn,
-        width: MediaQuery.of(context).size.width,
-        height: homeController.animatedHeight.value.toDouble(),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Heading(heading: 'Enter Name'),
-              const SizedBox(height: 20),
-              const FormFieldHeading(
-                title: 'How can we call you? ______',
-              ),
-              // const SizedBox(height: 5),
-              Form(
-                key: homeController.formState,
-                child: TextTypeField(
-                    task: '',
-                    controller: homeController.nameController,
-                    maxlines: 1,
-                    validator: (val) {},
-                    onSaved: (val) {},
-                    textInputType: TextInputType.name),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: CustomShape(
-                    borderRadius: BorderRadius.circular(30),
-                    borderRadius2: BorderRadius.circular(30),
-                    boxShape: BoxShape.rectangle,
-                    shadowColor: ColorRes.purpleSecondaryBtnColor,
-                    onTap: () => Get.toNamed(Routes.CHOOSE_AVATAR),
-                    padding: const EdgeInsets.all(15),
-                    child: Text(
-                      'Continue',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    gradientColor: ColorRes.purpleSecondaryBtnColor),
-              )
-            ],
-          ),
-        ),
-      );
-    });
   }
 }

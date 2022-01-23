@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+
 import 'package:simpler/app/data/model/task_model.dart';
 
 class TaskDatabase {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fullscreen/fullscreen.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/views/custom%20widgets/Text_type_field.dart';
@@ -11,6 +13,7 @@ import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
 import 'package:simpler/app/views/custom%20widgets/separator.dart';
 import 'package:simpler/app/views/custom%20widgets/task_card.dart';
+
 import '../controllers/project_management_controller.dart';
 
 class ProjectManagementView extends GetView<ProjectManagementController> {
@@ -26,10 +29,6 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
 
   @override
   Widget build(BuildContext context) {
-    print('project id - $projectId');
-    // controller.refreshToDoTask(projectId);
-    // controller.refreshInProgressTask(projectId);
-    // controller.refreshDoneTask(projectId);
     return OrientationBuilder(builder: (context, orientation) {
       return Obx(() {
         return Scaffold(
@@ -47,7 +46,18 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                   SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       controller: controller.projectManagementScrollController,
-                      child: _mainBody(context, orientation)),
+                      child: Obx(() {
+                        return Stack(
+                          children: [
+                            _mainBody(context, orientation),
+                            controller.showGrafitiLottie.value == true
+                                ? Positioned.fill(
+                                    child: Lottie.asset(AssetIcons.grafiti,
+                                        fit: BoxFit.cover))
+                                : const SizedBox.shrink()
+                          ],
+                        );
+                      })),
                   orientation == Orientation.portrait
                       ? Padding(
                           padding: const EdgeInsets.all(15.0),
@@ -420,11 +430,10 @@ class ToDoHeading extends GetView<ProjectManagementController> {
                   title: 'Full Screen',
                   textConfirm: 'Confirm',
                   textCancel: 'Cancel',
-                  onpressedConfirm: () => Orientation.landscape,
-                  onpressedCancel: () async =>
-                      await FullScreen.enterFullScreen(FullScreenMode.EMERSIVE),
+                  onpressedConfirm: () => controller.changeOrientation(),
+                  onpressedCancel: () => Get.back(),
                   contentWidget: Text(
-                    'Switch to full screen for better view!',
+                    'Switch to full screen for more screen real estate',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline3?.copyWith(
                         fontWeight: FontWeight.bold,

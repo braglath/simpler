@@ -1,8 +1,9 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
+
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/modules/home/views/home_view.dart';

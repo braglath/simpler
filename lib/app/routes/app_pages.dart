@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+
+import 'package:simpler/app/modules/all_projects/bindings/all_projects_binding.dart';
+import 'package:simpler/app/modules/all_projects/views/all_projects_view.dart';
 import 'package:simpler/app/modules/ask_name.dart/bindings/ask_name_dart_binding.dart';
 import 'package:simpler/app/modules/ask_name.dart/views/ask_name_dart_view.dart';
 import 'package:simpler/app/modules/choose_avatar/bindings/choose_avatar_binding.dart';
@@ -79,6 +83,13 @@ class AppPages {
         page: () => SplashScreenView(),
         binding: SplashScreenBinding(),
         transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut),
+    GetPage(
+        name: _Paths.ALL_PROJECTS,
+        page: () => AllProjectsView(),
+        binding: AllProjectsBinding(),
+        transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut),
   ];

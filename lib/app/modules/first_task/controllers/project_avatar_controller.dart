@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import 'package:simpler/app/data/database/project_database.dart';
 import 'package:simpler/app/data/database/task_database.dart';
 import 'package:simpler/app/data/model/project_model.dart';

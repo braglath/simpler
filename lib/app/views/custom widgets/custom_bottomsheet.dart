@@ -70,7 +70,6 @@ class CustomBottomSheet {
               onTap: onTap2,
             ),
             _divider(),
-            
             ListTile(
               tileColor: ColorRes.pureWhite,
               leading: FaIcon(

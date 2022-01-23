@@ -12,7 +12,6 @@ class HomeController extends GetxController {
   final date = ''.obs;
   int timing = 0;
   late Timer _timer;
-  final animatedHeight = 0.obs;
   final TextEditingController nameController = TextEditingController();
   final GlobalKey<FormState> formState = GlobalKey<FormState>();
   final ScrollController scrollController = ScrollController();
@@ -72,16 +71,6 @@ class HomeController extends GetxController {
     to = DateTime(to.year, to.month, to.day);
     print(' deadline - ${(to.difference(from).inHours / 24).round()}');
     return (to.difference(from).inHours / 24).round();
-  }
-
-  void animatedContainer() {
-    if (animatedHeight.value == 0) {
-      animatedHeight.value = 300;
-      print(animatedHeight.value);
-    } else {
-      animatedHeight.value = 0;
-      print(animatedHeight.value);
-    }
   }
 
   @override

@@ -20,7 +20,8 @@ class ProjectAvatarView extends GetView<ProjectAvatarController> {
 
   final projectController =
       Get.put<NewProjectController>(NewProjectController());
-      final projectManagementController = Get.put<ProjectManagementController>(ProjectManagementController());
+  final projectManagementController =
+      Get.put<ProjectManagementController>(ProjectManagementController());
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +120,6 @@ class ProjectAvatarView extends GetView<ProjectAvatarController> {
                                     projectController.deadLineDate,
                                     DateTime.now(),
                                     controller.userAvatar.value);
-                                    
                               },
                               padding: const EdgeInsets.all(15),
                               child: Text(
