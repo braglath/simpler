@@ -134,15 +134,15 @@ class HomeView extends GetView<HomeController> {
             onTap: () => Get.toNamed(Routes.ALL_PROJECTS),
             child: Text(
               'View all',
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  ?.copyWith(fontStyle: FontStyle.italic),
+              style: Theme.of(context).textTheme.caption?.copyWith(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                  ),
             ),
           )
         ],
       ),
-      const SizedBox(height: 15),
+      const SizedBox(height: 25),
       Obx(() {
         return RecentProjects(
           itemCount: controller.project.length,
