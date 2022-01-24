@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -458,6 +459,7 @@ class ToDoHeading extends GetView<ProjectManagementController> {
                         contentWidget: CreateTaskField(
                           projectId: projectId,
                           projectTitle: projectTitle,
+                          orientation: orientation,
                         ),
                         isDismissible: true)
                     .showDialogue(),
@@ -504,8 +506,12 @@ class ToDoHeading extends GetView<ProjectManagementController> {
 class CreateTaskField extends GetView<ProjectManagementController> {
   final int projectId;
   final String projectTitle;
+  final Orientation orientation;
   const CreateTaskField(
-      {Key? key, required this.projectId, required this.projectTitle})
+      {Key? key,
+      required this.projectId,
+      required this.projectTitle,
+      required this.orientation})
       : super(key: key);
 
   @override
@@ -517,7 +523,7 @@ class CreateTaskField extends GetView<ProjectManagementController> {
         child: TextTypeField(
             task: '',
             controller: controller.newTaskController,
-            maxlines: 3,
+            maxlines: orientation == Orientation.portrait ? 5 : 2,
             validator: (val) => controller.taskValidator(val),
             onSaved: (val) => controller.task = val!,
             textInputType: TextInputType.multiline),

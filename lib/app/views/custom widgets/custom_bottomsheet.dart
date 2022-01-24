@@ -9,32 +9,33 @@ class CustomBottomSheet {
   BuildContext context;
   IconData icon1;
   IconData icon2;
-  IconData icon3;
-  IconData icon4;
+  IconData? icon3;
+  IconData? icon4;
   String title1;
   String titile2;
-  String titile3;
-  String titile4;
+  String? titile3;
+  String? titile4;
   Function()? onTap1;
   Function()? onTap2;
   Function()? onTap3;
   Function()? onTap4;
+  bool need2n3Tile;
 
-  CustomBottomSheet({
-    required this.context,
-    required this.icon1,
-    required this.icon2,
-    required this.icon3,
-    required this.icon4,
-    required this.title1,
-    required this.titile2,
-    required this.titile3,
-    required this.titile4,
-    required this.onTap1,
-    required this.onTap2,
-    required this.onTap3,
-    required this.onTap4,
-  });
+  CustomBottomSheet(
+      {required this.context,
+      required this.icon1,
+      required this.icon2,
+      required this.icon3,
+      required this.icon4,
+      required this.title1,
+      required this.titile2,
+      required this.titile3,
+      required this.titile4,
+      required this.onTap1,
+      required this.onTap2,
+      required this.onTap3,
+      required this.onTap4,
+      required this.need2n3Tile});
   void show() {
     Get.bottomSheet(
       SizedBox(
@@ -70,33 +71,37 @@ class CustomBottomSheet {
               onTap: onTap2,
             ),
             _divider(),
-            ListTile(
-              tileColor: ColorRes.pureWhite,
-              leading: FaIcon(
-                icon4,
-                color: ColorRes.textColor,
-              ),
-              title: Text(titile4,
-                  style: const TextStyle(
+            need2n3Tile
+                ? ListTile(
+                    tileColor: ColorRes.pureWhite,
+                    leading: FaIcon(
+                      icon4,
                       color: ColorRes.textColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18)),
-              onTap: onTap4,
-            ),
+                    ),
+                    title: Text(titile4!,
+                        style: const TextStyle(
+                            color: ColorRes.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18)),
+                    onTap: onTap4,
+                  )
+                : const SizedBox.shrink(),
             _divider(),
-            ListTile(
-              tileColor: ColorRes.pureWhite,
-              leading: FaIcon(
-                icon3,
-                color: ColorRes.textColor,
-              ),
-              title: Text(titile3,
-                  style: const TextStyle(
+            need2n3Tile
+                ? ListTile(
+                    tileColor: ColorRes.pureWhite,
+                    leading: FaIcon(
+                      icon3,
                       color: ColorRes.textColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18)),
-              onTap: onTap3,
-            ),
+                    ),
+                    title: Text(titile3!,
+                        style: const TextStyle(
+                            color: ColorRes.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18)),
+                    onTap: onTap3,
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
       ),

@@ -9,6 +9,7 @@ import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/modules/home/controllers/home_controller.dart';
 import 'package:simpler/app/modules/project_management/controllers/project_management_controller.dart';
 import 'package:simpler/app/routes/app_pages.dart';
+import 'package:simpler/app/views/custom%20widgets/custom_bottomsheet.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_dialogue.dart';
 
 class ProjectCard extends StatelessWidget {
@@ -75,24 +76,40 @@ class ProjectCard extends StatelessWidget {
               // isThreeLine: true,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
-              onLongPress: () => CustomDialogue(
-                      title: 'Delete this project',
-                      textConfirm: 'Delete',
-                      textCancel: 'Cancel',
-                      onpressedConfirm: () =>
-                          homeController.deleteProjects(project.id, index),
-                      onpressedCancel: () => Get.back(),
-                      contentWidget: const Text(
-                        'You are about to delete this project!\nThis cannot be undone',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: ColorRes.textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                      isDismissible: true)
-                  .showDialogue(),
+              onLongPress: () => CustomBottomSheet(
+                context: context,
+                icon1: FontAwesomeIcons.edit,
+                icon2: FontAwesomeIcons.trashAlt,
+                icon3: null,
+                icon4: null,
+                title1: 'Edit project',
+                titile2: 'Delete project',
+                titile3: null,
+                titile4: null,
+                onTap1: () => {},
+                onTap2: () => homeController.deleteProjects(project.id, index),
+                onTap3: null,
+                onTap4: null,
+                need2n3Tile: false,
+              ).show(),
+              // CustomDialogue(
+              //         title: 'Delete this project',
+              //         textConfirm: 'Delete',
+              //         textCancel: 'Cancel',
+              //         onpressedConfirm: () =>
+              //             homeController.deleteProjects(project.id, index),
+              //         onpressedCancel: () => Get.back(),
+              //         contentWidget: const Text(
+              //           'You are about to delete this project!\nThis cannot be undone',
+              //           textAlign: TextAlign.center,
+              //           style: TextStyle(
+              //             color: ColorRes.textColor,
+              //             fontWeight: FontWeight.bold,
+              //             fontSize: 15,
+              //           ),
+              //         ),
+              //         isDismissible: true)
+              //     .showDialogue(),
               onTap: () {
                 print(
                     'project - ${project.isCompleted}\n${project.title}\n${project.avatar}\n${projectDeadline}\n${project.id}\n${project.deadline}\n${project.createdTime}');

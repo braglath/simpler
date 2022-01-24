@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:simpler/app/data/database/project_database.dart';
 import 'package:simpler/app/data/database/task_database.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
+import 'package:simpler/app/modules/all_projects/controllers/all_projects_controller.dart';
 
 class HomeController extends GetxController {
   final date = ''.obs;
@@ -21,6 +22,8 @@ class HomeController extends GetxController {
   var taskInProgress = [].obs;
   var taskDone = [].obs;
   var completedProjects = [].obs;
+  final allProjectsController =
+      Get.put<AllProjectsController>(AllProjectsController());
 
   @override
   void onInit() {
@@ -117,7 +120,9 @@ class HomeController extends GetxController {
   Future deleteProjects(id, index) async {
     await ProjectDatabase.instance.delete(id);
     project.removeAt(index);
-    // refreshProjects();
+    refreshProjects();
+    refreshCompletedProjects();
+    allProjectsController.getAllProjectsList();
     Get.back();
   }
 

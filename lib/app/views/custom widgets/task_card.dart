@@ -33,15 +33,16 @@ class TaskCard extends StatelessWidget {
       alignment: Alignment.topRight,
       children: [
         GestureDetector(
-          onLongPress: () => CustomDialogue(
-                  title: 'Delete Task',
-                  textConfirm: 'Confirm',
-                  textCancel: 'Cancel',
-                  onpressedConfirm: onPressedConfirm,
-                  onpressedCancel: onPressedCancel,
-                  contentWidget: null,
-                  isDismissible: true)
-              .showDialogue(),
+          onLongPress: () => {print('task long pressed')},
+          // CustomDialogue(
+          //         title: 'Delete Task',
+          //         textConfirm: 'Confirm',
+          //         textCancel: 'Cancel',
+          //         onpressedConfirm: onPressedConfirm,
+          //         onpressedCancel: onPressedCancel,
+          //         contentWidget: null,
+          //         isDismissible: true)
+          //     .showDialogue(),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -66,6 +67,7 @@ class TaskCard extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () => CustomBottomSheet(
+            need2n3Tile: true,
             context: context,
             icon1: FontAwesomeIcons.tasks,
             icon2: FontAwesomeIcons.checkSquare,
