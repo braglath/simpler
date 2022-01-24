@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 
 class TextTypeField extends StatelessWidget {
-  TextEditingController? controller;
+  final TextEditingController? controller;
   final int? maxlines;
   final String? Function(String?)? validator;
   final String? Function(String?)? onSaved;
   final TextInputType? textInputType;
   final String? task;
 
-  TextTypeField(
+  const TextTypeField(
       {Key? key,
       required this.controller,
       required this.maxlines,

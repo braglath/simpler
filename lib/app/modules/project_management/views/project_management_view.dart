@@ -245,7 +245,7 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
     return Column(
       children: [
         Container(
-          height: orientation == Orientation.portrait ? 50 : 35,
+          height: orientation == Orientation.portrait ? 40 : 35,
           decoration: BoxDecoration(
             color: Colors.grey.shade200.withOpacity(0.5),
             borderRadius: const BorderRadius.only(
@@ -263,7 +263,7 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
           ),
         ),
         SizedBox(
-          height: orientation == Orientation.portrait ? 340 : 290,
+          height: orientation == Orientation.portrait ? 350 : 290,
           child: Obx(() {
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -279,47 +279,76 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                     : io == 1
                         ? controller.taskInProgress[index]
                         : controller.taskDone[index];
-                return TaskCard(
-                    taskTitle: task.task,
-                    onPressedConfirm: () =>
-                        controller.removeTask(task.id!, index),
-                    onPressedCancel: () => Get.back(),
-                    onTap1: () => controller.onTap1(io, task.id!, index,
-                        task.projectId, task.projectTitle, task.task),
-                    onTap2: () => controller.onTap2(io, task.id!, index,
-                        projectId, task.projectTitle, task.task),
-                    onTap3: () =>
-                        controller.onTap3(io, task.id!, index, projectId),
-                    onTap4: () {
-                      Get.back();
-                      CustomDialogue(
-                              title: 'Edit Task',
-                              textConfirm: 'Confirm',
-                              textCancel: 'Cancel',
-                              onpressedConfirm: () => controller.editTask(
-                                    task.id,
-                                    projectId,
-                                    task.projectTitle,
-                                    controller.newTaskController.text,
-                                    io == 0
-                                        ? 'Todo'
-                                        : io == 1
-                                            ? 'InProgress'
-                                            : 'Done',
-                                  ),
-                              onpressedCancel: () => Get.back(),
-                              contentWidget: TextTypeField(
-                                controller: controller.newTaskController,
-                                maxlines: 5,
-                                validator: (val) => null,
-                                onSaved: (val) => controller.task = val!,
-                                textInputType: TextInputType.name,
-                                task: task.task,
-                              ),
-                              isDismissible: true)
-                          .showDialogue();
-                    },
-                    io: io);
+                return GestureDetector(
+                  onTap: () => Get.defaultDialog(
+                    barrierDismissible: true,
+                    title: task.task,
+                    backgroundColor: ColorRes.scaffoldBG,
+                    titleStyle: const TextStyle(
+                      color: ColorRes.textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                    buttonColor: ColorRes.purpleSecondaryBtnColor,
+                    cancel: ElevatedButton(
+                        onPressed: () => Get.back(),
+                        child: const Text('Cancel')),
+                    radius: 12,
+                    content: Column(
+                      children: [
+                        Text(
+                          'Project - ${task.projectTitle}',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Text(
+                          'Deadline - $deadline',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ],
+                    ),
+                  ),
+                  child: TaskCard(
+                      taskTitle: task.task,
+                      onPressedConfirm: () =>
+                          controller.removeTask(task.id!, index),
+                      onPressedCancel: () => Get.back(),
+                      onTap1: () => controller.onTap1(io, task.id!, index,
+                          task.projectId, task.projectTitle, task.task),
+                      onTap2: () => controller.onTap2(io, task.id!, index,
+                          projectId, task.projectTitle, task.task),
+                      onTap3: () =>
+                          controller.onTap3(io, task.id!, index, projectId),
+                      onTap4: () {
+                        Get.back();
+                        CustomDialogue(
+                                title: 'Edit Task',
+                                textConfirm: 'Confirm',
+                                textCancel: 'Cancel',
+                                onpressedConfirm: () => controller.editTask(
+                                      task.id,
+                                      projectId,
+                                      task.projectTitle,
+                                      controller.newTaskController.text,
+                                      io == 0
+                                          ? 'Todo'
+                                          : io == 1
+                                              ? 'InProgress'
+                                              : 'Done',
+                                    ),
+                                onpressedCancel: () => Get.back(),
+                                contentWidget: TextTypeField(
+                                  controller: controller.newTaskController,
+                                  maxlines: 5,
+                                  validator: (val) => null,
+                                  onSaved: (val) => controller.task = val!,
+                                  textInputType: TextInputType.multiline,
+                                  task: task.task,
+                                ),
+                                isDismissible: true)
+                            .showDialogue();
+                      },
+                      io: io),
+                );
               },
             );
           }),
@@ -491,7 +520,7 @@ class CreateTaskField extends GetView<ProjectManagementController> {
             maxlines: 3,
             validator: (val) => controller.taskValidator(val),
             onSaved: (val) => controller.task = val!,
-            textInputType: TextInputType.name),
+            textInputType: TextInputType.multiline),
       ),
     );
   }

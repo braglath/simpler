@@ -45,12 +45,14 @@ class ProjectCard extends StatelessWidget {
             const Spacer(),
             Text(
               project.deadline.isBefore(project.createdTime)
-                  ? 'Deadline crossed'
+                  ? project.isCompleted
+                      ? 'Deadline crossed'
+                      : ''
                   : '',
               style: Theme.of(context).textTheme.caption?.copyWith(
                   color: ColorRes.redErrorColor, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(width: 15),
+            const Spacer(),
             Text(
               project.isCompleted ? 'Pending' : 'Completed',
               style: Theme.of(context).textTheme.caption?.copyWith(

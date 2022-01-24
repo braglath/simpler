@@ -50,7 +50,7 @@ class ProjectManagementController extends GetxController {
       }
     });
 
-    Timer.periodic(const Duration(seconds: 8), (Timer t) {
+    Timer.periodic(const Duration(seconds: 5), (Timer t) {
       timing = timing + 1;
       // print('timing - $timing');
       if (timing.isEven) {
