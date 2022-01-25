@@ -37,13 +37,15 @@ class ProjectAvatarController extends GetxController {
 
   Future addProject(String title, DateTime deadline, DateTime createdTime,
       String assetImage) async {
+    DateTime completedTime = DateTime.now();
     print('deadline - $createdTime');
     final Project project = Project(
         isCompleted: true,
         title: title,
         avatar: assetImage,
         deadline: deadline,
-        createdTime: createdTime);
+        createdTime: createdTime,
+        completedTime: completedTime);
     final newProject = await ProjectDatabase.instance.create(project);
     addTask(newProject.id!, newProject.title,
         'This is your place to add tasks for your project\n\nKeep your tasks short and clear\n\nMove the task to In progress or Done section by tapping on ... icon on\n\nOnce you complete the tasks in Todo and In progress section, you will see a button to mark the task as Completed');

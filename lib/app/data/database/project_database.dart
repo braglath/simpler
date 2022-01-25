@@ -39,7 +39,8 @@ CREATE TABLE $tableProjects (
   ${ProjectFields.title} $textType,
   ${ProjectFields.avatar} $textType,
   ${ProjectFields.deadline} $textType,
-  ${ProjectFields.createdTime} $textType
+  ${ProjectFields.createdTime} $textType,
+  ${ProjectFields.completedTime} $textType
 )
 ''');
 //? to create multiple datatable you can simply copy paste the above db.execute code
@@ -111,6 +112,14 @@ CREATE TABLE $tableProjects (
         whereArgs: [0],
         orderBy: orderBy);
     return result.map((json) => Project.fromJson(json)).toList();
+  }
+
+  //? to set completed project time
+  Future<int> updateProjectCompleted(
+      int id, DateTime projectCompletedTime) async {
+    final db = await instance.database;
+    return db.rawUpdate(
+        'UPDATE ${ProjectFields.id} SET (${ProjectFields.completedTime}) value ($projectCompletedTime) WHERE ${ProjectFields.id} = $id');
   }
 
   //? to update project

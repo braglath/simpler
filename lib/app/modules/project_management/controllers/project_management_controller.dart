@@ -92,6 +92,7 @@ class ProjectManagementController extends GetxController {
     DateTime projectCreatedTime,
   ) async {
     showGrafitiLottie.value = true;
+    DateTime completedTime = DateTime.now();
 
     final Project project = Project(
       id: projectId,
@@ -100,6 +101,7 @@ class ProjectManagementController extends GetxController {
       avatar: projectAvatar,
       deadline: projectDeadLine,
       createdTime: projectCreatedTime,
+      completedTime: completedTime
     );
     await ProjectDatabase.instance.update(project).whenComplete(() {
       homeController.refreshProjects();

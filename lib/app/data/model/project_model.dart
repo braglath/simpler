@@ -8,7 +8,8 @@ class ProjectFields {
     title,
     avatar,
     deadline,
-    createdTime
+    createdTime,
+    completedTime
   ];
 
   static final String id = '_id'; //? by default in sql we have _ in id
@@ -17,6 +18,7 @@ class ProjectFields {
   static final String avatar = 'avatar';
   static final String deadline = 'deadline';
   static final String createdTime = 'createdTime';
+  static final String completedTime = 'completedTime';
 }
 
 class Project {
@@ -26,6 +28,7 @@ class Project {
   final String avatar;
   final DateTime deadline;
   final DateTime createdTime;
+  final DateTime completedTime;
 
   const Project({
     this.id,
@@ -34,6 +37,7 @@ class Project {
     required this.avatar,
     required this.deadline,
     required this.createdTime,
+    required this.completedTime,
   });
 
   Project copy({
@@ -43,6 +47,7 @@ class Project {
     String? avatar,
     DateTime? deadline,
     DateTime? createdTime,
+    DateTime? completedTime,
   }) =>
       Project(
         id: id ?? this.id,
@@ -51,6 +56,7 @@ class Project {
         avatar: title ?? this.avatar,
         deadline: deadline ?? this.deadline,
         createdTime: createdTime ?? this.createdTime,
+        completedTime: completedTime ?? this.completedTime,
       );
 
   static Project fromJson(Map<String, Object?> json) => Project(
@@ -59,7 +65,9 @@ class Project {
       title: json[ProjectFields.title] as String,
       avatar: json[ProjectFields.avatar] as String,
       deadline: DateTime.parse(json[ProjectFields.deadline] as String),
-      createdTime: DateTime.parse(json[ProjectFields.createdTime] as String));
+      createdTime: DateTime.parse(json[ProjectFields.createdTime] as String),
+      completedTime:
+          DateTime.parse(json[ProjectFields.completedTime] as String));
 
   Map<String, Object?> toJson() => {
         ProjectFields.id: id,
@@ -68,6 +76,7 @@ class Project {
         ProjectFields.avatar: avatar,
         ProjectFields.deadline: deadline.toIso8601String(),
         ProjectFields.createdTime: createdTime
-            .toIso8601String() //? to conver a datetime object to a string we can use .toIso8601String()
+            .toIso8601String(), //? to conver a datetime object to a string we can use .toIso8601String()
+        ProjectFields.completedTime: completedTime.toIso8601String()
       };
 }

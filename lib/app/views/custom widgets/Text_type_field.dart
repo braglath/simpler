@@ -27,7 +27,7 @@ class TextTypeField extends StatelessWidget {
   Widget build(BuildContext context) {
     controller!.text = task!;
     return TextFormField(
-      autofocus: true,
+      // autofocus: true,
       textCapitalization: TextCapitalization.sentences,
       controller: controller,
       maxLines: maxlines,
