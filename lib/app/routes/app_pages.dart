@@ -22,6 +22,7 @@ import 'package:simpler/app/modules/project_management/bindings/project_manageme
 import 'package:simpler/app/modules/project_management/views/project_management_view.dart';
 import 'package:simpler/app/modules/splash_screen/bindings/splash_screen_binding.dart';
 import 'package:simpler/app/modules/splash_screen/views/splash_screen_view.dart';
+import 'package:simpler/app/views/single%20pages/increase_deadline.dart';
 
 part 'app_routes.dart';
 
@@ -98,6 +99,12 @@ class AppPages {
         name: _Paths.PROFILE_PAGE,
         page: () => ProfilePageView(),
         binding: ProfilePageBinding(),
+        transition: Transition.rightToLeft,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic),
+    GetPage(
+        name: _Paths.INCREASE_DEADLINE_PAGE,
+        page: () => IncreaseDeadline(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
         curve: Curves.easeInOutCubic),

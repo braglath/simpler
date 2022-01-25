@@ -93,7 +93,6 @@ class ProjectManagementController extends GetxController {
   ) async {
     showGrafitiLottie.value = true;
     DateTime completedTime = DateTime.now();
-
     final Project project = Project(
       id: projectId,
       isCompleted: false,
@@ -111,6 +110,8 @@ class ProjectManagementController extends GetxController {
           .whenComplete(() => showGrafitiLottie.value = false);
     });
   }
+
+  
 
   Future editTask(
     int taskId,

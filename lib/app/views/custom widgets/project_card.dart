@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
 import 'package:simpler/app/data/model/project_model.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/modules/home/controllers/home_controller.dart';
@@ -14,6 +13,7 @@ import 'package:simpler/app/views/custom%20widgets/custom_dialogue.dart';
 
 class ProjectCard extends StatelessWidget {
   final Project project;
+
   final int index;
   ProjectCard({
     Key? key,
@@ -30,6 +30,7 @@ class ProjectCard extends StatelessWidget {
     homeController.refreshTasks(project.id);
     final projectCreated = homeController.dateCreated(project.createdTime);
     final projectDeadline = homeController.dateCreated(project.deadline);
+    final projectCompleted = homeController.dateCreated(project.completedTime);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -73,7 +74,7 @@ class ProjectCard extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: ListTile(
-              // isThreeLine: true,
+              isThreeLine: !project.isCompleted,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
               onLongPress: () => CustomBottomSheet(
@@ -111,19 +112,64 @@ class ProjectCard extends StatelessWidget {
               //         isDismissible: true)
               //     .showDialogue(),
               onTap: () {
-                print(
-                    'project - ${project.isCompleted}\n${project.title}\n${project.avatar}\n${projectDeadline}\n${project.id}\n${project.deadline}\n${project.createdTime}');
-                projectManagerController.refreshToDoTask(project.id!);
-                projectManagerController.refreshInProgressTask(project.id!);
-                projectManagerController.refreshDoneTask(project.id!);
-                Get.toNamed(Routes.PROJECT_MANAGEMENT, arguments: {
-                  'title': project.title,
-                  'asset': project.avatar,
-                  'projectDeadline': projectDeadline,
-                  'projectId': project.id,
-                  'projectDeadLine': project.deadline,
-                  'projectCreatedTime': project.createdTime
-                });
+                if (!project.isCompleted) {
+                  CustomDialogue(
+                          title: 'Reopen object?',
+                          textConfirm: 'Yes',
+                          textCancel: 'No',
+                          onpressedConfirm: () =>
+                              Get.toNamed(Routes.INCREASE_DEADLINE, arguments: project),
+                          onpressedCancel: () => Get.back(),
+                          contentWidget: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                                text: '${project.title} ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline4
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: 'has been completed already on ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4),
+                                  TextSpan(
+                                    text: '$projectCompleted! ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic),
+                                  ),
+                                  TextSpan(
+                                      text:
+                                          'Do you want to reopen this project?',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4),
+                                ]),
+                          ),
+                          isDismissible: true)
+                      .showDialogue();
+                } else {
+                  print(
+                      'project - ${project.isCompleted}\n${project.title}\n${project.avatar}\n${projectDeadline}\n${project.id}\n${project.deadline}\n${project.createdTime}');
+                  projectManagerController.refreshToDoTask(project.id!);
+                  projectManagerController.refreshInProgressTask(project.id!);
+                  projectManagerController.refreshDoneTask(project.id!);
+                  Get.toNamed(Routes.PROJECT_MANAGEMENT, arguments: {
+                    'title': project.title,
+                    'asset': project.avatar,
+                    'projectDeadline': projectDeadline,
+                    'projectId': project.id,
+                    'projectDeadLine': project.deadline,
+                    'projectCreatedTime': project.createdTime
+                  });
+                }
               },
               enableFeedback: true,
               leading: Image.asset(
@@ -140,24 +186,51 @@ class ProjectCard extends StatelessWidget {
                     .headline4
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
-              subtitle: Row(
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Deadline - $projectDeadline',
-                    maxLines: 1,
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        ?.copyWith(fontSize: 12),
+                  Row(
+                    children: [
+                      Text(
+                        'Deadline - $projectDeadline',
+                        maxLines: 1,
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            ?.copyWith(fontSize: 12),
+                      ),
+                      const SizedBox(width: 5),
+                      const FaIcon(
+                        FontAwesomeIcons.calendarAlt,
+                        size: 15,
+                        color: Colors.grey,
+                      )
+                    ],
                   ),
-                  const SizedBox(width: 5),
-                  const FaIcon(
-                    FontAwesomeIcons.calendarAlt,
-                    size: 15,
-                    color: Colors.grey,
-                  )
+                  const SizedBox(height: 5),
+                  !project.isCompleted
+                      ? Row(
+                          children: [
+                            Text(
+                              'Completed - $projectCompleted',
+                              maxLines: 1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  ?.copyWith(fontSize: 12),
+                            ),
+                            const SizedBox(width: 5),
+                            const FaIcon(
+                              FontAwesomeIcons.checkSquare,
+                              size: 15,
+                              color: Colors.grey,
+                            )
+                          ],
+                        )
+                      : const SizedBox.shrink(),
                 ],
               ),
+
               trailing: const FaIcon(
                 FontAwesomeIcons.arrowRight,
                 color: ColorRes.textColor,

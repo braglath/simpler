@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:simpler/app/data/database/project_database.dart';
+import 'package:simpler/app/data/model/project_model.dart';
+import 'package:simpler/app/modules/all_projects/controllers/all_projects_controller.dart';
+import 'package:simpler/app/modules/home/controllers/home_controller.dart';
+import 'package:simpler/app/routes/app_pages.dart';
 
 class NewProjectController extends GetxController {
   final TextEditingController projectNameController = TextEditingController();
@@ -11,6 +16,10 @@ class NewProjectController extends GetxController {
   final DateTime date = DateTime.now();
   DateTime deadLineDate = DateTime.now();
   final deadLine = ''.obs;
+  final homeController = Get.put<HomeController>(HomeController());
+  final allProjectsController =
+      Get.put<AllProjectsController>(AllProjectsController());
+  final isLoading = false.obs;
   List months = [
     'jan',
     'feb',
@@ -39,6 +48,33 @@ class NewProjectController extends GetxController {
       if (projectNameController.text != '') {
         showBtn2.value = true;
       }
+    });
+  }
+
+  Future changeProjectDeadline(
+    int projectId,
+    String projectAvatar,
+    String projectTitle,
+    DateTime projectDeadLine,
+    DateTime projectCreatedTime,
+    DateTime projectCompletedTime,
+  ) async {
+    isLoading.value = true;
+    DateTime completedTime = DateTime.now();
+    final Project project = Project(
+        id: projectId,
+        isCompleted: true,
+        title: projectTitle,
+        avatar: projectAvatar,
+        deadline: projectDeadLine,
+        createdTime: projectCreatedTime,
+        completedTime: completedTime);
+    await ProjectDatabase.instance.update(project).whenComplete(() {
+      homeController.refreshProjects();
+      homeController.refreshCompletedProjects();
+      allProjectsController.getAllProjectsList();
+      Future.delayed(const Duration(seconds: 2), () => isLoading.value = true)
+          .then((value) => Get.offAllNamed(Routes.HOME));
     });
   }
 

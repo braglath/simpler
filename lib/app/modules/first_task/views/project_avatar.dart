@@ -16,6 +16,7 @@ import '../controllers/project_avatar_controller.dart';
 class ProjectAvatarView extends GetView<ProjectAvatarController> {
   ProjectAvatarView({Key? key}) : super(key: key);
 
+
   final projectController =
       Get.put<NewProjectController>(NewProjectController());
   final projectManagementController =

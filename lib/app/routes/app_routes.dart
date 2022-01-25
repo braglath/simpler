@@ -14,6 +14,7 @@ abstract class Routes {
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
   static const ALL_PROJECTS = _Paths.ALL_PROJECTS;
   static const PROFILE_PAGE = _Paths.PROFILE_PAGE;
+  static const INCREASE_DEADLINE = _Paths.INCREASE_DEADLINE_PAGE;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const SPLASH_SCREEN = '/splash-screen';
   static const ALL_PROJECTS = '/all-projects';
   static const PROFILE_PAGE = '/profile-page';
+  static const INCREASE_DEADLINE_PAGE = '/increase-deadline';
 }
