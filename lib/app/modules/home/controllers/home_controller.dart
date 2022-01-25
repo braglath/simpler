@@ -82,14 +82,22 @@ class HomeController extends GetxController {
   }
 
   Future refreshProjects() async {
-    await ProjectDatabase.instance
-        .readAllProjects()
-        .then((value) => project.assignAll(value));
+    if (await ProjectDatabase.instance.projectDatabaseExists()) {
+      await ProjectDatabase.instance
+          .readAllProjects()
+          .then((value) => project.assignAll(value));
+    } else {
+      return print('no database exists');
+    }
   }
 
   Future refreshCompletedProjects() async {
-    final completed = await ProjectDatabase.instance.readCompletedProjects();
-    completedProjects.value = completed;
+    if (await ProjectDatabase.instance.projectDatabaseExists()) {
+      final completed = await ProjectDatabase.instance.readCompletedProjects();
+      completedProjects.value = completed;
+    } else {
+      return print('no database exists');
+    }
   }
 
   void refreshTasks(projectId) async {

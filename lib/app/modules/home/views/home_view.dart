@@ -11,6 +11,7 @@ import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/routes/app_pages.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
+import 'package:simpler/app/views/custom%20widgets/custom_snackbar.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
 import 'package:simpler/app/views/custom%20widgets/total_projects_card.dart';
 import 'package:simpler/app/views/ui%20widgets/projects_list.dart';
@@ -132,7 +133,13 @@ class HomeView extends GetView<HomeController> {
           const Heading(heading: CommonStrings.recentProjects),
           const Spacer(),
           GestureDetector(
-            onTap: () => Get.toNamed(Routes.ALL_PROJECTS),
+            onTap: () => controller.project.isEmpty
+                ? CustomSnackbar(
+                        title: 'Add projects',
+                        message:
+                            "Add a new project by clicking on 'New Project' button at the bottom of this page")
+                    .showWarning()
+                : Get.toNamed(Routes.ALL_PROJECTS),
             child: Text(
               'View all',
               style: Theme.of(context).textTheme.caption?.copyWith(

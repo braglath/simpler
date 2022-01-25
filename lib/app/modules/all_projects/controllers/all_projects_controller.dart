@@ -59,7 +59,7 @@ class AllProjectsController extends GetxController {
   }
 
   void changeDateName() {
-    if (timing.isEven) {
+    if (timing.isEven && UserDataDetails().readUserName().isNotEmpty) {
       date.value = UserDataDetails().readUserName();
     } else {
       currentDate();

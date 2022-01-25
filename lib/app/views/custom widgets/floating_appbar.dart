@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
-import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/modules/home/controllers/home_controller.dart';
 import 'package:simpler/app/views/animations/fade_animation.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_profileImage.dart';

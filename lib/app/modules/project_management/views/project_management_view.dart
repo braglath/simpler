@@ -8,7 +8,6 @@ import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/modules/project_management/controllers/todoActionBtn_controller.dart';
 import 'package:simpler/app/views/custom%20widgets/Text_type_field.dart';
-import 'package:simpler/app/views/custom%20widgets/custom_bottomsheet.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_dialogue.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';

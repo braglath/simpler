@@ -144,4 +144,16 @@ CREATE TABLE $tableProjects (
     db.close();
     print('db closed');
   }
+
+  Future deleteDataBase() async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, 'projects.db');
+    return await deleteDatabase(path);
+  }
+
+  Future<bool> projectDatabaseExists() async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, 'projects.db');
+    return databaseFactory.databaseExists(path);
+  }
 }

@@ -132,4 +132,16 @@ CREATE TABLE $tableTask (
     db.close();
     print('db closed');
   }
+
+  Future deleteDataBase() async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, 'tasks.db');
+    return await deleteDatabase(path);
+  }
+
+  Future<bool> taskDatabaseExists() async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, 'tasks.db');
+    return databaseFactory.databaseExists(path);
+  }
 }

@@ -5,6 +5,7 @@ import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/modules/home/controllers/home_controller.dart';
 import 'package:simpler/app/routes/app_pages.dart';
+import 'package:simpler/app/views/custom%20widgets/custom_dialogue.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_profileImage.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
@@ -25,7 +26,19 @@ class ProfilePageView extends GetView<ProfilePageController> {
         body: SafeArea(
           child: Stack(
             children: [
-              _body(context),
+              Stack(
+                children: [
+                  _body(context, controller),
+                  controller.isLoading.isTrue
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: ColorRes.brown,
+                            color: ColorRes.purpleSecondaryBtnColor,
+                          ),
+                        )
+                      : const SizedBox.shrink()
+                ],
+              ),
               _appbar(),
             ],
           ),
@@ -51,7 +64,7 @@ class ProfilePageView extends GetView<ProfilePageController> {
       );
 }
 
-Widget _body(BuildContext context) => Padding(
+Widget _body(BuildContext context, ProfilePageController controller) => Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
@@ -59,7 +72,7 @@ Widget _body(BuildContext context) => Padding(
             flex: 2,
             child: _profile(),
           ),
-          Expanded(flex: 2, child: _editCards(context)),
+          Expanded(flex: 2, child: _editCards(context, controller)),
           const Expanded(flex: 1, child: SizedBox.shrink()),
         ],
       ),
@@ -82,22 +95,42 @@ Widget _profile() => Column(
       ],
     );
 
-Widget _editCards(BuildContext context) => Column(
+Widget _editCards(BuildContext context, ProfilePageController controller) =>
+    Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _editProfile(
             context,
             'Edit profile',
             'Change your profile info like name and avatar',
-            () => 'edit profile clicked'),
-        _editProfile(context, 'Clear data',
-            'Clear all data and logout of the app', () => 'clear data clicked'),
+            () => Get.offAllNamed(Routes.ASK_NAME_DART)),
+        _editProfile(
+            context,
+            'Clear data',
+            'Clear all data and logout of the app',
+            () => CustomDialogue(
+                    title: 'Clear Data!',
+                    textConfirm: 'Confirm',
+                    textCancel: 'Cancel',
+                    onpressedConfirm: () => controller.logoutandClearData(),
+                    onpressedCancel: () => Get.back(),
+                    contentWidget: Text(
+                      'This will delete all the data and restart the app! this cannot be undone.',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3
+                          ?.copyWith(fontWeight: FontWeight.w400),
+                    ),
+                    isDismissible: true)
+                .showDialogue()),
       ],
     );
 
 Widget _editProfile(
     BuildContext context, String title, String caption, Function()? onTap) {
   return InkWell(
+    borderRadius: BorderRadius.circular(15),
     onTap: onTap,
     child: Container(
       width: MediaQuery.of(context).size.width,
