@@ -9,22 +9,28 @@ import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/modules/home/controllers/home_controller.dart';
 import 'package:simpler/app/views/animations/fade_animation.dart';
+import 'package:simpler/app/views/custom%20widgets/custom_profileImage.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 
 class FloatingAppBar extends StatelessWidget {
   final String title;
   final bool needBackBtn;
+  final bool needAvatar;
+  final bool removeActionBtn;
   final Function()? onLeadingTap;
   final Function()? onActionTap;
+
   final String asset;
-  FloatingAppBar({
-    Key? key,
-    required this.title,
-    required this.needBackBtn,
-    required this.onLeadingTap,
-    required this.onActionTap,
-    required this.asset,
-  }) : super(key: key);
+  FloatingAppBar(
+      {Key? key,
+      required this.title,
+      required this.needBackBtn,
+      required this.needAvatar,
+      required this.onLeadingTap,
+      required this.onActionTap,
+      required this.asset,
+      required this.removeActionBtn})
+      : super(key: key);
 
   final homeController = Get.put<HomeController>(HomeController());
 
@@ -52,42 +58,18 @@ class FloatingAppBar extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            CustomProfileImage(
-              onProfileTap: onActionTap,
-              asset: asset,
-              needBackBtn: needBackBtn,
-            )
+            !removeActionBtn
+                ? CustomProfileImage(
+                    needAvatar: needAvatar,
+                    onProfileTap: onActionTap,
+                    asset: asset,
+                    circleRadius: 15,
+                    imageHeight: 25,
+                    imageWidth: 25)
+                : const SizedBox.shrink()
           ],
         ),
         gradientColor: ColorRes.scaffoldBG);
-  }
-}
-
-class CustomProfileImage extends StatelessWidget {
-  final Function()? onProfileTap;
-  final bool needBackBtn;
-  final String asset;
-  const CustomProfileImage({
-    Key? key,
-    required this.onProfileTap,
-    required this.needBackBtn,
-    required this.asset,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onProfileTap,
-      child: CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: 15,
-          child: Image.asset(
-            needBackBtn ? asset : UserDataDetails().readUserAvatar(),
-            fit: BoxFit.contain,
-            height: 25,
-            width: 25,
-          )),
-    );
   }
 }
 

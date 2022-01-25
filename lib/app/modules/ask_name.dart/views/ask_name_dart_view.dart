@@ -11,7 +11,6 @@ import 'package:simpler/app/views/custom%20widgets/Text_type_field.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 import 'package:simpler/app/views/custom%20widgets/form_field_heading.dart';
-
 import '../controllers/ask_name_dart_controller.dart';
 
 class AskNameDartView extends GetView<AskNameDartController> {

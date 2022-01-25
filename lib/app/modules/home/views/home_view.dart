@@ -14,7 +14,6 @@ import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
 import 'package:simpler/app/views/custom%20widgets/total_projects_card.dart';
 import 'package:simpler/app/views/ui%20widgets/projects_list.dart';
-
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -44,8 +43,10 @@ class HomeView extends GetView<HomeController> {
                     return FloatingAppBar(
                       title: controller.date.value,
                       needBackBtn: false,
+                      needAvatar: true,
+                      removeActionBtn: false,
                       asset: '',
-                      onActionTap: () => print('action button tapped'),
+                      onActionTap: () => Get.toNamed(Routes.PROFILE_PAGE),
                       onLeadingTap: () async => await ProjectDatabase.instance
                           .close()
                           .whenComplete(

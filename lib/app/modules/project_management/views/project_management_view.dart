@@ -1,20 +1,17 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/views/custom%20widgets/Text_type_field.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_dialogue.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
-import 'package:simpler/app/views/custom%20widgets/separator.dart';
 import 'package:simpler/app/views/custom%20widgets/task_card.dart';
-
+import 'package:simpler/app/views/custom%20widgets/separator.dart';
 import '../controllers/project_management_controller.dart';
 
 class ProjectManagementView extends GetView<ProjectManagementController> {
@@ -74,10 +71,12 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                               height: 50,
                               child: Obx(() {
                                 return FloatingAppBar(
+                                  removeActionBtn: false,
                                   title: controller.showTitle.isTrue
                                       ? title
                                       : 'Deadline - $deadline',
                                   needBackBtn: true,
+                                  needAvatar: false,
                                   asset: asset,
                                   onActionTap: () =>
                                       controller.refreshToDoTask(projectId),

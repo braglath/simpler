@@ -16,6 +16,8 @@ import 'package:simpler/app/modules/new_project/bindings/new_project_binding.dar
 import 'package:simpler/app/modules/new_project/views/new_project_view.dart';
 import 'package:simpler/app/modules/pick_deadline/bindings/pick_deadline_binding.dart';
 import 'package:simpler/app/modules/pick_deadline/views/pick_deadline_view.dart';
+import 'package:simpler/app/modules/profile_page/bindings/profile_page_binding.dart';
+import 'package:simpler/app/modules/profile_page/views/profile_page_view.dart';
 import 'package:simpler/app/modules/project_management/bindings/project_management_binding.dart';
 import 'package:simpler/app/modules/project_management/views/project_management_view.dart';
 import 'package:simpler/app/modules/splash_screen/bindings/splash_screen_binding.dart';
@@ -35,62 +37,69 @@ class AppPages {
         binding: HomeBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
     GetPage(
         name: _Paths.NEW_PROJECT,
         page: () => NewProjectView(),
         binding: NewProjectBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
     GetPage(
         name: _Paths.PICK_DEADLINE,
         page: () => PickDeadlineView(),
         binding: PickDeadlineBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
     GetPage(
         name: _Paths.FIRST_TASK,
         page: () => ProjectAvatarView(),
         binding: ProjectAvatarBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
     GetPage(
         name: _Paths.ASK_NAME_DART,
         page: () => const AskNameDartView(),
         binding: AskNameDartBinding(),
         transition: Transition.fadeIn,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
     GetPage(
         name: _Paths.CHOOSE_AVATAR,
         page: () => ChooseAvatarView(),
         binding: ChooseAvatarBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
     GetPage(
         name: _Paths.PROJECT_MANAGEMENT,
         page: () => ProjectManagementView(),
         binding: ProjectManagementBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
     GetPage(
         name: _Paths.SPLASH_SCREEN,
         page: () => SplashScreenView(),
         binding: SplashScreenBinding(),
         transition: Transition.fadeIn,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
     GetPage(
         name: _Paths.ALL_PROJECTS,
-        page: () => AllProjectsView(),
+        page: () => const AllProjectsView(),
         binding: AllProjectsBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut),
+        curve: Curves.easeInOutCubic),
+    GetPage(
+        name: _Paths.PROFILE_PAGE,
+        page: () => ProfilePageView(),
+        binding: ProfilePageBinding(),
+        transition: Transition.rightToLeft,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic),
   ];
 }

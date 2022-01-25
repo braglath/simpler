@@ -13,6 +13,7 @@ abstract class Routes {
   static const PROJECT_MANAGEMENT = _Paths.PROJECT_MANAGEMENT;
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
   static const ALL_PROJECTS = _Paths.ALL_PROJECTS;
+  static const PROFILE_PAGE = _Paths.PROFILE_PAGE;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const PROJECT_MANAGEMENT = '/project-management';
   static const SPLASH_SCREEN = '/splash-screen';
   static const ALL_PROJECTS = '/all-projects';
+  static const PROFILE_PAGE = '/profile-page';
 }

@@ -70,7 +70,7 @@ class CustomBottomSheet {
                       fontSize: 18)),
               onTap: onTap2,
             ),
-            _divider(),
+            need2n3Tile ? _divider() : const SizedBox.shrink(),
             need2n3Tile
                 ? ListTile(
                     tileColor: ColorRes.pureWhite,
@@ -86,7 +86,7 @@ class CustomBottomSheet {
                     onTap: onTap4,
                   )
                 : const SizedBox.shrink(),
-            _divider(),
+            need2n3Tile ? _divider() : const SizedBox.shrink(),
             need2n3Tile
                 ? ListTile(
                     tileColor: ColorRes.pureWhite,

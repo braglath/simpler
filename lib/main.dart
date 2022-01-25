@@ -13,7 +13,7 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) => runApp(
       GetMaterialApp(
-        debugShowCheckedModeBanner: false,
+        // debugShowCheckedModeBanner: false,
         title: MainPageStrings.title,
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,

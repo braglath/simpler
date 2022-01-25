@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import 'package:simpler/app/views/custom%20widgets/project_card.dart';
 import 'package:simpler/app/views/custom%20widgets/separator.dart';
 

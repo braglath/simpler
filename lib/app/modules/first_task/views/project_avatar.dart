@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/modules/new_project/controllers/new_project_controller.dart';
@@ -12,7 +11,6 @@ import 'package:simpler/app/views/custom%20widgets/avatar_choices.dart';
 import 'package:simpler/app/views/custom%20widgets/back_appbar.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
-
 import '../controllers/project_avatar_controller.dart';
 
 class ProjectAvatarView extends GetView<ProjectAvatarController> {
