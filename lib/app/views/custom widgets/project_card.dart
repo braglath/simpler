@@ -91,7 +91,8 @@ class ProjectCard extends StatelessWidget {
                 onTap2: () => homeController.deleteProjects(project.id, index),
                 onTap3: null,
                 onTap4: null,
-                need2n3Tile: false,
+                need3rdTile: false,
+                need4thTile: false,
               ).show(),
               // CustomDialogue(
               //         title: 'Delete this project',
@@ -117,8 +118,9 @@ class ProjectCard extends StatelessWidget {
                           title: 'Reopen object?',
                           textConfirm: 'Yes',
                           textCancel: 'No',
-                          onpressedConfirm: () =>
-                              Get.toNamed(Routes.INCREASE_DEADLINE, arguments: project),
+                          onpressedConfirm: () => Get.toNamed(
+                              Routes.INCREASE_DEADLINE,
+                              arguments: project),
                           onpressedCancel: () => Get.back(),
                           contentWidget: RichText(
                             textAlign: TextAlign.center,

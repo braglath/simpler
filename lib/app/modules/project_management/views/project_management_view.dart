@@ -6,12 +6,15 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simpler/app/data/resources/assets_strings.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
+import 'package:simpler/app/modules/project_management/controllers/todoActionBtn_controller.dart';
 import 'package:simpler/app/views/custom%20widgets/Text_type_field.dart';
+import 'package:simpler/app/views/custom%20widgets/custom_bottomsheet.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_dialogue.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_shape.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
 import 'package:simpler/app/views/custom%20widgets/task_card.dart';
 import 'package:simpler/app/views/custom%20widgets/separator.dart';
+import 'package:simpler/app/views/ui%20widgets/todo_heading.dart';
 import '../controllers/project_management_controller.dart';
 
 class ProjectManagementView extends GetView<ProjectManagementController> {
@@ -25,6 +28,9 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
   DateTime get projectDeadLine => project['projectDeadLine'];
   DateTime get projectCreatedTime => project['projectCreatedTime'];
 
+  final todoActionBtnController =
+      Get.put<TodoActionBtnController>(TodoActionBtnController());
+
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(builder: (context, orientation) {
@@ -34,14 +40,30 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                 ? FloatingActionButton(
                     onPressed: () => controller.changeToPortrait(),
                     child: const FaIcon(
-                      FontAwesomeIcons.expandAlt,
+                      FontAwesomeIcons.compressAlt,
                       color: ColorRes.pureWhite,
                     ),
                   )
-                : controller.taskToDo.isEmpty &&
-                        controller.taskInProgress.isEmpty
-                    ? _fabBTN(context)
-                    : const SizedBox.shrink(),
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15.0),
+                        child: FloatingActionButton(
+                          onPressed: () => controller.changeToLandscape(),
+                          child: const FaIcon(
+                            FontAwesomeIcons.expandAlt,
+                            color: ColorRes.pureWhite,
+                          ),
+                        ),
+                      ),
+                      controller.taskToDo.isEmpty &&
+                              controller.taskInProgress.isEmpty
+                          ? _fabBTN(context)
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
             extendBody: true,
             bottomNavigationBar: controller.showBottomSheet.isTrue
                 ? _bottomNavigationBar(context)
@@ -260,6 +282,7 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
             projectTitle: title,
             id: io,
             orientation: orientation,
+            todoActionBtnController: todoActionBtnController,
           ),
         ),
         SizedBox(
@@ -400,107 +423,7 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
   }
 }
 
-class ToDoHeading extends GetView<ProjectManagementController> {
-  final int projectId;
-  final String projectTitle;
-  final int id;
-  final Orientation orientation;
-  const ToDoHeading(
-      {Key? key,
-      required this.projectId,
-      required this.projectTitle,
-      required this.id,
-      required this.orientation})
-      : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 15),
-        Text(
-          id == 0
-              ? 'To do'
-              : id == 1
-                  ? 'In progress'
-                  : 'Done',
-          style: Theme.of(context).textTheme.headline3?.copyWith(
-              fontSize: 22,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(width: 5),
-        CircleAvatar(
-          radius: 10.0,
-          backgroundColor: ColorRes.brown,
-          child: Center(child: Obx(() {
-            return AutoSizeText(
-              id == 0
-                  ? controller.taskToDo.length.toString()
-                  : id == 1
-                      ? controller.taskInProgress.length.toString()
-                      : controller.taskDone.length.toString(),
-              style: Theme.of(context).textTheme.caption?.copyWith(
-                  fontWeight: FontWeight.bold, color: ColorRes.textColor),
-            );
-          })),
-        ),
-        const Spacer(),
-        id == 0
-            ? GestureDetector(
-                onTap: () => CustomDialogue(
-                        title: 'Create Task',
-                        textConfirm: 'Confirm',
-                        textCancel: 'Cancel',
-                        onpressedConfirm: () =>
-                            controller.addTask(projectId, projectTitle),
-                        onpressedCancel: () => Get.back(),
-                        contentWidget: CreateTaskField(
-                          projectId: projectId,
-                          projectTitle: projectTitle,
-                          orientation: orientation,
-                        ),
-                        isDismissible: true)
-                    .showDialogue(),
-                child: const FaIcon(FontAwesomeIcons.plus, size: 18))
-            : const SizedBox.shrink(),
-        const SizedBox(width: 15),
-
-        GestureDetector(
-          onTap: () => controller.changeOrientation(),
-
-          // CustomDialogue(
-          //         title: orientation == Orientation.portrait
-          //             ? 'Landscape'
-          //             : 'Portrait',
-          //         textConfirm: 'Confirm',
-          //         textCancel: 'Cancel',
-          //         onpressedConfirm: () => controller.changeOrientation(),
-          //         onpressedCancel: () => Get.back(),
-          //         contentWidget: Text(
-          //           orientation == Orientation.portrait
-          //               ? 'Switch to landscape for more screen real estate'
-          //               : 'Switch back to portrait',
-          //           textAlign: TextAlign.center,
-          //           style: Theme.of(context).textTheme.headline3?.copyWith(
-          //               fontWeight: FontWeight.bold,
-          //               fontStyle: FontStyle.italic),
-          //         ),
-          //         isDismissible: true)
-          //     .showDialogue(),
-
-          child: const FaIcon(
-            FontAwesomeIcons.expandAlt,
-            size: 18,
-          ),
-        ),
-        const SizedBox(width: 15),
-        // const FaIcon(FontAwesomeIcons.ellipsisH, size: 18),
-        // const SizedBox(width: 15),
-      ],
-    );
-  }
-}
 
 class CreateTaskField extends GetView<ProjectManagementController> {
   final int projectId;

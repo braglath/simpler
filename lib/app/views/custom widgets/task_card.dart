@@ -67,7 +67,8 @@ class TaskCard extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () => CustomBottomSheet(
-            need2n3Tile: true,
+            need3rdTile: true,
+            need4thTile: true,
             context: context,
             icon1: FontAwesomeIcons.tasks,
             icon2: FontAwesomeIcons.checkSquare,

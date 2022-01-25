@@ -19,7 +19,8 @@ class CustomBottomSheet {
   Function()? onTap2;
   Function()? onTap3;
   Function()? onTap4;
-  bool need2n3Tile;
+  bool need3rdTile;
+  bool need4thTile;
 
   CustomBottomSheet(
       {required this.context,
@@ -35,7 +36,8 @@ class CustomBottomSheet {
       required this.onTap2,
       required this.onTap3,
       required this.onTap4,
-      required this.need2n3Tile});
+      required this.need3rdTile,
+      required this.need4thTile});
   void show() {
     Get.bottomSheet(
       SizedBox(
@@ -70,8 +72,8 @@ class CustomBottomSheet {
                       fontSize: 18)),
               onTap: onTap2,
             ),
-            need2n3Tile ? _divider() : const SizedBox.shrink(),
-            need2n3Tile
+            need3rdTile ? _divider() : const SizedBox.shrink(),
+            need3rdTile
                 ? ListTile(
                     tileColor: ColorRes.pureWhite,
                     leading: FaIcon(
@@ -86,8 +88,8 @@ class CustomBottomSheet {
                     onTap: onTap4,
                   )
                 : const SizedBox.shrink(),
-            need2n3Tile ? _divider() : const SizedBox.shrink(),
-            need2n3Tile
+            need3rdTile ? _divider() : const SizedBox.shrink(),
+            need4thTile
                 ? ListTile(
                     tileColor: ColorRes.pureWhite,
                     leading: FaIcon(

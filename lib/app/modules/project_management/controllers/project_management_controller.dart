@@ -84,6 +84,13 @@ class ProjectManagementController extends GetxController {
     await FullScreen.exitFullScreen();
   }
 
+  void changeToLandscape() async {
+    changeOrientationtoLandscape.value = true;
+    print(changeOrientationtoLandscape.value);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    await FullScreen.enterFullScreen(FullScreenMode.EMERSIVE);
+  }
+
   Future completedProject(
     int projectId,
     String projectTitle,
@@ -94,14 +101,13 @@ class ProjectManagementController extends GetxController {
     showGrafitiLottie.value = true;
     DateTime completedTime = DateTime.now();
     final Project project = Project(
-      id: projectId,
-      isCompleted: false,
-      title: projectTitle,
-      avatar: projectAvatar,
-      deadline: projectDeadLine,
-      createdTime: projectCreatedTime,
-      completedTime: completedTime
-    );
+        id: projectId,
+        isCompleted: false,
+        title: projectTitle,
+        avatar: projectAvatar,
+        deadline: projectDeadLine,
+        createdTime: projectCreatedTime,
+        completedTime: completedTime);
     await ProjectDatabase.instance.update(project).whenComplete(() {
       homeController.refreshProjects();
       homeController.refreshCompletedProjects();
@@ -110,8 +116,6 @@ class ProjectManagementController extends GetxController {
           .whenComplete(() => showGrafitiLottie.value = false);
     });
   }
-
-  
 
   Future editTask(
     int taskId,
@@ -375,6 +379,8 @@ class ProjectManagementController extends GetxController {
       Get.back();
     });
   }
+
+  
 
   @override
   void onClose() => {projectManagementScrollController.dispose()};

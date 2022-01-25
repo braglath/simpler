@@ -104,11 +104,26 @@ CREATE TABLE $tableTask (
         where: '${TaskFields.id} = ?', whereArgs: [task.id]);
   }
 
+  Future<int> updateTaskFull(String oldStatus, String newStatus) async {
+    final db = await instance.database;
+    //? like before you can also use your own statement by using rawupdate and pass sql statement inside
+    return db.rawUpdate(
+        'UPDATE $tableTask SET ${TaskFields.status} = ? WHERE ${TaskFields.status} = ?',
+        [newStatus, oldStatus]);
+  }
+
   //? to delete a project
   Future<int> delete(int id) async {
     final db = await instance.database;
     return await db
         .delete(tableTask, where: '${TaskFields.id} = ?', whereArgs: [id]);
+  }
+
+  //? to delete all todo tasks
+  Future<int> deleteAllTasks(String status) async {
+    final db = await instance.database;
+    return await db.delete(tableTask,
+        where: '${TaskFields.status} = ?', whereArgs: [status]);
   }
 
   //? to close our database
