@@ -78,9 +78,11 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                           children: [
                             _mainBody(context, orientation),
                             controller.showGrafitiLottie.value == true
-                                ? Positioned.fill(
+                                ? SizedBox(
+                                    height: MediaQuery.of(context).size.height,
+                                    width: MediaQuery.of(context).size.width,
                                     child: Lottie.asset(AssetIcons.grafiti,
-                                        fit: BoxFit.cover))
+                                        fit: BoxFit.contain))
                                 : const SizedBox.shrink()
                           ],
                         );
@@ -421,8 +423,6 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
     });
   }
 }
-
-
 
 class CreateTaskField extends GetView<ProjectManagementController> {
   final int projectId;
