@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
+import 'package:simpler/app/routes/app_pages.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
 import 'package:simpler/app/views/ui%20widgets/projects_list.dart';
@@ -36,7 +37,7 @@ class AllProjectsView extends GetView<AllProjectsController> {
                         needAvatar: false,
                         removeActionBtn: false,
                         asset: UserDataDetails().readUserAvatar(),
-                        onActionTap: () => {},
+                        onActionTap: () => Get.toNamed(Routes.PROFILE_PAGE),
                         onLeadingTap: () => Get.back(),
                       );
                     }),

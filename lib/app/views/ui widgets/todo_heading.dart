@@ -93,16 +93,16 @@ class ToDoHeading extends GetView<ProjectManagementController> {
                     : FontAwesomeIcons.tasks,
             title1: 'Clear all task',
             titile2: id == 0
-                ? 'Mark as In progress'
+                ? 'Mark all as "In progress"'
                 : id == 1
-                    ? 'Mark as Done'
-                    : 'Mark as To do',
+                    ? 'Mark all as "Done"'
+                    : 'Mark all as "To do"',
             titile3: null,
             titile4: id == 0
-                ? 'Mark as Done'
+                ? 'Mark all as "Done"'
                 : id == 1
-                    ? 'Mark as To do'
-                    : 'Mark as In progress',
+                    ? 'Mark all as "To do"'
+                    : 'Mark all as "In progress"',
             onTap1: () => todoActionBtnController.actionOnTap1(id, projectId),
             onTap2: () => todoActionBtnController.actionOnTap2(id, projectId),
             onTap3: null,

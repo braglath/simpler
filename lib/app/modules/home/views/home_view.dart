@@ -1,3 +1,4 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,31 +33,34 @@ class HomeView extends GetView<HomeController> {
       Scaffold(
         backgroundColor: ColorRes.scaffoldBG,
         floatingActionButton: fabBTN(context),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              _homeBody(context),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: SizedBox(
-                  height: 50,
-                  child: Obx(() {
-                    return FloatingAppBar(
-                      title: controller.date.value,
-                      needBackBtn: false,
-                      needAvatar: true,
-                      removeActionBtn: false,
-                      asset: '',
-                      onActionTap: () => Get.toNamed(Routes.PROFILE_PAGE),
-                      onLeadingTap: () async => await ProjectDatabase.instance
-                          .close()
-                          .whenComplete(
-                              () => UserDataDetails().deleteUserDetails()),
-                    );
-                  }),
+        body: DoubleBackToCloseApp(
+          snackBar: const SnackBar(content: Text('Tap back again to exit')),
+          child: SafeArea(
+            child: Stack(
+              children: [
+                _homeBody(context),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SizedBox(
+                    height: 50,
+                    child: Obx(() {
+                      return FloatingAppBar(
+                        title: controller.date.value,
+                        needBackBtn: false,
+                        needAvatar: true,
+                        removeActionBtn: false,
+                        asset: '',
+                        onActionTap: () => Get.toNamed(Routes.PROFILE_PAGE),
+                        onLeadingTap: () async => await ProjectDatabase.instance
+                            .close()
+                            .whenComplete(
+                                () => UserDataDetails().deleteUserDetails()),
+                      );
+                    }),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

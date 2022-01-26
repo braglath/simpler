@@ -97,8 +97,8 @@ class CustomLeadingWidget extends StatelessWidget {
                           color: ColorRes.textColor,
                         )
                       : Image.asset(
-                          AssetIcons.drawer,
-                          color: ColorRes.textColor,
+                          AssetIcons.brandLogo,
+                          // color: ColorRes.textColor,
                         ),
                 ),
               ),

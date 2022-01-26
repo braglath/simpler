@@ -323,10 +323,12 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                         Text(
                           'Project - ${task.projectTitle}',
                           style: Theme.of(context).textTheme.caption,
+                          textAlign: TextAlign.center,
                         ),
                         Text(
                           'Deadline - $deadline',
                           style: Theme.of(context).textTheme.caption,
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),

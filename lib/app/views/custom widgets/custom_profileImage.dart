@@ -26,7 +26,7 @@ class CustomProfileImage extends StatelessWidget {
           backgroundColor: Colors.white,
           radius: circleRadius,
           child: Image.asset(
-            needAvatar ? UserDataDetails().readUserAvatar() :  asset ,
+            needAvatar ? UserDataDetails().readUserAvatar() : asset,
             fit: BoxFit.contain,
             height: imageHeight,
             width: imageWidth,

@@ -180,7 +180,7 @@ class ProjectCard extends StatelessWidget {
                 height: 55,
                 width: 35,
               ),
-              title: AutoSizeText(
+              title: Text(
                 project.title,
                 maxLines: 1,
                 style: Theme.of(context)

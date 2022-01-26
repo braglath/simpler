@@ -31,15 +31,6 @@ class TaskCard extends StatelessWidget {
       children: [
         GestureDetector(
           onLongPress: () => {print('task long pressed')},
-          // CustomDialogue(
-          //         title: 'Delete Task',
-          //         textConfirm: 'Confirm',
-          //         textCancel: 'Cancel',
-          //         onpressedConfirm: onPressedConfirm,
-          //         onpressedCancel: onPressedCancel,
-          //         contentWidget: null,
-          //         isDismissible: true)
-          //     .showDialogue(),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -72,15 +63,15 @@ class TaskCard extends StatelessWidget {
             icon3: FontAwesomeIcons.trashAlt,
             icon4: FontAwesomeIcons.edit,
             title1: io == 0
-                ? "Move to 'In progress' section"
+                ? 'Move to "In progress" section'
                 : io == 1
-                    ? "Move to 'Done' section"
-                    : "Move to 'To do' section",
+                    ? 'Move to "Done" section'
+                    : 'Move to "To do" section',
             titile2: io == 0
-                ? "Move to 'Done' section"
+                ? 'Move to "Done" section'
                 : io == 1
-                    ? "Move to 'To do' section"
-                    : "Move to 'In progress' section",
+                    ? 'Move to "To do" section'
+                    : 'Move to "In progress" section',
             titile3: 'Delete task',
             titile4: 'Edit task',
             onTap1: onTap1,

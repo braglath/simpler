@@ -48,16 +48,13 @@ class AskNameDartView extends GetView<AskNameDartController> {
                 const FormFieldHeading(
                   title: 'How can we call you? ______',
                 ),
-                Form(
-                  key: controller.nameFormState,
-                  child: TextTypeField(
-                      task: '',
-                      controller: controller.userNameController,
-                      maxlines: 1,
-                      validator: (val) {},
-                      onSaved: (val) {},
-                      textInputType: TextInputType.name),
-                ),
+                TextTypeField(
+                    task: '',
+                    controller: controller.userNameController,
+                    maxlines: 1,
+                    validator: (val) {},
+                    onSaved: (val) {},
+                    textInputType: TextInputType.name),
                 const SizedBox(height: 30),
                 controller.showBtn.isTrue
                     ? FadeAnimation(

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class AskNameDartController extends GetxController {
   final TextEditingController userNameController = TextEditingController();
-  final GlobalKey<FormState> nameFormState = GlobalKey<FormState>();
+
   final showBtn = false.obs;
   @override
   void onInit() {
