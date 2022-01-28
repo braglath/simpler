@@ -21,6 +21,8 @@ dependencies:
   fullscreen: 1.0.3
   lottie: 1.2.1
   double_back_to_close_app: 2.1.0
+  table_calendar: 3.0.3
+  liquid_swipe: 2.1.1
   flutter: 
     sdk: flutter
 

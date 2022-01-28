@@ -15,6 +15,7 @@ class AllProjectsController extends GetxController {
   final ScrollController allProjectScrollController = ScrollController();
   final scrollToBottom = true.obs;
   final showRefreshIndicator = false.obs;
+  final choiceChipValue = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -68,6 +69,16 @@ class AllProjectsController extends GetxController {
 
   Future getAllProjectsList() async {
     final allProjects = await ProjectDatabase.instance.fetchAllProjects();
+    allProjectsList.value = allProjects;
+  }
+
+  Future getCompletedProjectsList() async {
+    final allProjects = await ProjectDatabase.instance.readCompletedProjects();
+    allProjectsList.value = allProjects;
+  }
+
+  Future getPendingProjectsList() async {
+    final allProjects = await ProjectDatabase.instance.readPendingProjects();
     allProjectsList.value = allProjects;
   }
 

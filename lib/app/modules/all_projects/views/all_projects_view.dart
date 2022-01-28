@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
@@ -7,8 +6,10 @@ import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/routes/app_pages.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
+import 'package:simpler/app/views/ui%20widgets/choice_chip_filter.dart';
 import 'package:simpler/app/views/ui%20widgets/projects_list.dart';
 import '../controllers/all_projects_controller.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class AllProjectsView extends GetView<AllProjectsController> {
   const AllProjectsView({Key? key}) : super(key: key);
@@ -74,13 +75,35 @@ class AllProjectsView extends GetView<AllProjectsController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Heading(heading: 'All Projects'),
+                  _searchRow(),
+                  const SizedBox(height: 15),
+                  TableCalendar(
+                    firstDay: DateTime.utc(2010, 10, 16),
+                    lastDay: DateTime.utc(2030, 3, 14),
+                    focusedDay: DateTime.now(),
+                  ),
+                  const SizedBox(height: 15),
+                  Obx(() {
+                    return Heading(
+                        heading: controller.choiceChipValue.value == 0
+                            ? 'All Projects'
+                            : controller.choiceChipValue.value == 1
+                                ? 'Completed Projects'
+                                : 'Pending Projects');
+                  }),
                   const SizedBox(height: 25),
                   Obx(() {
-                    return RecentProjects(
-                      itemCount: controller.allProjectsList.length,
-                      project: controller.allProjectsList,
-                    );
+                    return controller.allProjectsList.isEmpty
+                        ? const Padding(
+                            padding: EdgeInsets.all(50.0),
+                            child: Center(
+                                child:
+                                    Heading(heading: 'Nothing to show here')),
+                          )
+                        : RecentProjects(
+                            itemCount: controller.allProjectsList.length,
+                            project: controller.allProjectsList,
+                          );
                   })
                 ],
               ),
@@ -88,4 +111,37 @@ class AllProjectsView extends GetView<AllProjectsController> {
           ),
         ),
       );
+
+  Row _searchRow() {
+    return Row(
+      children: [
+        // const Spacer(),
+        const ChoiceChipFilter(),
+        const Spacer(),
+        Container(
+          height: 30,
+          width: 2,
+          color: ColorRes.textColor,
+        ),
+        // const SizedBox(width: 5),
+        IconButton(
+            onPressed: () => print('search icon clicked'), //? for search view
+            splashRadius: 15,
+            icon: const FaIcon(
+              FontAwesomeIcons.search,
+              color: ColorRes.textColor,
+              size: 25,
+            )),
+        // const SizedBox(width: 5),
+        IconButton(
+            onPressed: () {}, //? for calender view
+            splashRadius: 15,
+            icon: const FaIcon(
+              FontAwesomeIcons.calendarAlt,
+              color: ColorRes.textColor,
+              size: 25,
+            )),
+      ],
+    );
+  }
 }

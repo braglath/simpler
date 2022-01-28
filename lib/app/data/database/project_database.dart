@@ -114,6 +114,20 @@ CREATE TABLE $tableProjects (
     return result.map((json) => Project.fromJson(json)).toList();
   }
 
+  //? to read all projects
+  Future<List<Project>> readPendingProjects() async {
+    //? you can add more fields next to tableProjects inside db.query
+    final db = await instance.database;
+    final orderBy = '${ProjectFields.createdTime} DESC';
+    //? you can also create your own query statement
+    // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
+    final result = await db.query(tableProjects,
+        where: '${ProjectFields.isCompleted} = ?',
+        whereArgs: [1],
+        orderBy: orderBy);
+    return result.map((json) => Project.fromJson(json)).toList();
+  }
+
   //? to set completed project time
   Future<int> updateProjectCompleted(
       int id, DateTime projectCompletedTime) async {

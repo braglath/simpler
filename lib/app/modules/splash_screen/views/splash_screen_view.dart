@@ -18,19 +18,12 @@ class SplashScreenView extends GetView<SplashScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      backgroundColor: ColorRes.scaffoldBG,
-      duration: 500,
-      splash: Hero(
-          tag: 'logo',
-          child: SizedBox(
-              height: 125,
-              width: 125,
-              child: Image.asset(AssetIcons.brandLogo))),
-      splashIconSize: 200,
-      nextScreen: const HomeView(),
-      disableNavigation: true,
-      pageTransitionType: PageTransitionType.scale,
+    return Center(
+      child: SizedBox(
+        height: 125,
+        width: 125,
+        child: Image.asset(AssetIcons.brandLogo),
+      ),
     );
   }
 }
