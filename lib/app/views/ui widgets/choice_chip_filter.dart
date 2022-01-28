@@ -10,7 +10,7 @@ class ChoiceChipFilter extends GetView<AllProjectsController> {
   Widget build(BuildContext context) {
     return Wrap(
       // runSpacing: 5,
-      spacing: 5,
+      spacing: 8,
       children: List<Widget>.generate(
         3,
         (int index) {

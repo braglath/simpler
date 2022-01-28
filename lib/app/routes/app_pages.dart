@@ -38,7 +38,7 @@ class AppPages {
         name: _Paths.HOME,
         page: () => const HomeView(),
         binding: HomeBinding(),
-        transition: Transition.circularReveal,
+        transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
         curve: Curves.easeInOutCubic),
     GetPage(

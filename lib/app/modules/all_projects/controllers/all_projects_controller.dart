@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:simpler/app/data/database/project_database.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 
-class AllProjectsController extends GetxController {
+class AllProjectsController extends GetxController
+    with SingleGetTickerProviderMixin {
   final date = ''.obs;
   int timing = 0;
   late Timer _timer;
@@ -16,11 +17,17 @@ class AllProjectsController extends GetxController {
   final scrollToBottom = true.obs;
   final showRefreshIndicator = false.obs;
   final choiceChipValue = 0.obs;
+  bool showPicker = false;
+  late AnimationController animationController;
   @override
   void onInit() {
     super.onInit();
     currentDate();
     getAllProjectsList();
+    animationController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 300),
+        animationBehavior: AnimationBehavior.preserve);
     allProjectScrollController.addListener(() {
       final scrollListener = allProjectScrollController.position.pixels > 200;
       if (scrollListener) {
@@ -110,5 +117,7 @@ class AllProjectsController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    animationController.dispose();
+  }
 }
