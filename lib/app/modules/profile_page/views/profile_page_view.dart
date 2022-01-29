@@ -58,6 +58,7 @@ class ProfilePageView extends GetView<ProfilePageController> {
               asset: '',
               onActionTap: () => Get.toNamed(Routes.PROFILE_PAGE),
               onLeadingTap: () => Get.back(),
+              needSearchOption: false,
             );
           }),
         ),
@@ -88,6 +89,7 @@ Widget _profile() => Column(
           circleRadius: 50,
           imageHeight: 75,
           imageWidth: 75,
+          needSearchIcon: false,
         ),
         const SizedBox(height: 15),
         Heading(heading: UserDataDetails().readUserName()),

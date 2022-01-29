@@ -9,7 +9,6 @@ import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
 import 'package:simpler/app/views/custom%20widgets/separator.dart';
 import 'package:simpler/app/views/ui%20widgets/choice_chip_filter.dart';
 import 'package:simpler/app/views/ui%20widgets/projects_list.dart';
-import 'package:table_calendar/table_calendar.dart';
 import '../controllers/all_projects_controller.dart';
 
 class AllProjectsView extends GetView<AllProjectsController> {
@@ -28,23 +27,7 @@ class AllProjectsView extends GetView<AllProjectsController> {
             child: Stack(
               children: [
                 _mainBody(context),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SizedBox(
-                    height: 50,
-                    child: Obx(() {
-                      return FloatingAppBar(
-                        title: controller.date.value,
-                        needBackBtn: true,
-                        needAvatar: false,
-                        removeActionBtn: false,
-                        asset: UserDataDetails().readUserAvatar(),
-                        onActionTap: () => Get.toNamed(Routes.PROFILE_PAGE),
-                        onLeadingTap: () => Get.back(),
-                      );
-                    }),
-                  ),
-                ),
+                AllProjectsAppBar(controller: controller),
               ],
             ),
           ),
@@ -68,6 +51,7 @@ class AllProjectsView extends GetView<AllProjectsController> {
 
   Widget _mainBody(BuildContext context) => SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           controller: controller.allProjectScrollController,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -76,46 +60,17 @@ class AllProjectsView extends GetView<AllProjectsController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _searchRow(),
+                  _searchRow(context),
                   const Separator(),
                   // const SizedBox(height: 15),
-                  Card(
-                    color: ColorRes.pureWhite,
-                    elevation: 4,
-                    shadowColor: ColorRes.purpleSecondaryBtnColor,
-                    child: SizeTransition(
-                      sizeFactor: controller.animationController,
-                      child: TableCalendar(
-                        firstDay: DateTime.utc(2010, 10, 16),
-                        lastDay: DateTime.utc(2030, 3, 14),
-                        focusedDay: DateTime.now(),
-                        calendarFormat: CalendarFormat.week,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
+                  FilterCard(controller: controller),
                   Obx(() {
-                    return Heading(
-                        heading: controller.choiceChipValue.value == 0
-                            ? 'All Projects'
-                            : controller.choiceChipValue.value == 1
-                                ? 'Completed Projects'
-                                : 'Pending Projects');
+                    return SizedBox(
+                        height: controller.filterTapped.isFalse ? 0 : 15);
                   }),
+                  _headings(),
                   const SizedBox(height: 25),
-                  Obx(() {
-                    return controller.allProjectsList.isEmpty
-                        ? const Padding(
-                            padding: EdgeInsets.all(50.0),
-                            child: Center(
-                                child:
-                                    Heading(heading: 'Nothing to show here')),
-                          )
-                        : RecentProjects(
-                            itemCount: controller.allProjectsList.length,
-                            project: controller.allProjectsList,
-                          );
-                  })
+                  _projects()
                 ],
               ),
             ),
@@ -123,32 +78,71 @@ class AllProjectsView extends GetView<AllProjectsController> {
         ),
       );
 
-  Row _searchRow() {
+  Obx _projects() {
+    return Obx(() {
+      return controller.allProjectsList.isEmpty
+          ? const Padding(
+              padding: EdgeInsets.all(50.0),
+              child: Center(child: Heading(heading: 'Nothing to show here')),
+            )
+          : RecentProjects(
+              itemCount: controller.allProjectsList.length,
+              project: controller.allProjectsList,
+            );
+    });
+  }
+
+  Obx _headings() {
+    return Obx(() {
+      return Heading(
+          heading: controller.choiceChipValue.value == 0
+              ? 'All Projects'
+              : controller.choiceChipValue.value == 1
+                  ? 'Completed Projects'
+                  : 'Pending Projects');
+    });
+  }
+
+  Row _searchRow(BuildContext context) {
     return Row(
       children: [
-        // const Spacer(),
-        const ChoiceChipFilter(),
+        SizedBox(
+            width: MediaQuery.of(context).size.width - 100,
+            child: const ChoiceChipFilter()),
         const Spacer(),
         Container(
           height: 30,
           width: 2,
           color: ColorRes.textColor,
         ),
+        const Spacer(),
         const SizedBox(width: 5),
-        IconButton(
-            onPressed: () => {
-                  controller.showPicker = !controller.showPicker,
-                  if (controller.showPicker)
-                    {controller.animationController.forward()}
-                  else
-                    {controller.animationController.reverse()}
-                }, //? for search view
-            splashRadius: 15,
-            icon: const FaIcon(
-              FontAwesomeIcons.calendarAlt,
-              color: ColorRes.textColor,
-              size: 25,
-            )),
+        Obx(() {
+          return CircleAvatar(
+            backgroundColor: controller.filterTapped.isFalse
+                ? ColorRes.pureWhite
+                : ColorRes.purpleSecondaryBtnColor,
+            radius: 15,
+            child: IconButton(
+                onPressed: () => {
+                      controller.showPicker = !controller.showPicker,
+                      controller.filterTapped.value =
+                          !controller.filterTapped.value,
+                      if (controller.showPicker)
+                        {controller.animationController.forward()}
+                      else
+                        {controller.animationController.reverse()}
+                    }, //? for search view
+                splashRadius: 15,
+                icon: FaIcon(
+                  FontAwesomeIcons.sortAmountDown,
+                  color: controller.filterTapped.isFalse
+                      ? ColorRes.textColor
+                      : ColorRes.pureWhite,
+                  size: 15,
+                )),
+          );
+        }),
         // const SizedBox(width: 5),
         // IconButton(
         //     onPressed: () {}, //? for calender view
@@ -159,6 +153,77 @@ class AllProjectsView extends GetView<AllProjectsController> {
         //       size: 25,
         //     )),
       ],
+    );
+  }
+}
+
+class AllProjectsAppBar extends StatelessWidget {
+  const AllProjectsAppBar({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final AllProjectsController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: SizedBox(
+        height: 50,
+        child: Obx(() {
+          return FloatingAppBar(
+              title: controller.date.value,
+              needBackBtn: true,
+              needAvatar: false,
+              removeActionBtn: false,
+              asset: UserDataDetails().readUserAvatar(),
+              onActionTap: () => print('search icon tapped'),
+              onLeadingTap: () => Get.back(),
+              needSearchOption: true);
+        }),
+      ),
+    );
+  }
+}
+
+class FilterCard extends StatelessWidget {
+  const FilterCard({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final AllProjectsController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: ColorRes.purpleSecondaryBtnColor,
+      elevation: 4,
+      shadowColor: ColorRes.purpleSecondaryBtnColor,
+      child: SizeTransition(
+        sizeFactor: controller.animationController,
+        child: Obx(() => Theme(
+              data: Theme.of(context)
+                  .copyWith(unselectedWidgetColor: ColorRes.textColor),
+              child: CheckboxListTile(
+                enableFeedback: true,
+                value: controller.showOrderby.value,
+                onChanged: (val) =>
+                    controller.getPendingProjectsinDESCorder(val!),
+                activeColor: ColorRes.pureWhite,
+                checkColor: ColorRes.textColor,
+                title: Text(
+                  controller.choiceChipIndex.value == 0 ||
+                          controller.choiceChipIndex.value == 1
+                      ? 'Order by ascending..'
+                      : 'Order by descending..',
+                  style: Theme.of(context).textTheme.headline4?.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+            )),
+      ),
     );
   }
 }

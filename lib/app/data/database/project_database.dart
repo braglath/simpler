@@ -100,7 +100,18 @@ CREATE TABLE $tableProjects (
     return result.map((json) => Project.fromJson(json)).toList();
   }
 
-  //? to read all projects
+  //? to fetch all projects in asc order
+  Future<List<Project>> readAllprojectsinASCorder() async {
+    //? you can add more fields next to tableProjects inside db.query
+    final db = await instance.database;
+    final orderBy = '${ProjectFields.createdTime} ASC';
+    //? you can also create your own query statement
+    // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
+    final result = await db.query(tableProjects, orderBy: orderBy);
+    return result.map((json) => Project.fromJson(json)).toList();
+  }
+
+  //? to read all completed projects
   Future<List<Project>> readCompletedProjects() async {
     //? you can add more fields next to tableProjects inside db.query
     final db = await instance.database;
@@ -114,11 +125,39 @@ CREATE TABLE $tableProjects (
     return result.map((json) => Project.fromJson(json)).toList();
   }
 
-  //? to read all projects
+  //? to read all completed projects in asc order
+  Future<List<Project>> readCOMPLETEDprojectsinASCorder() async {
+    //? you can add more fields next to tableProjects inside db.query
+    final db = await instance.database;
+    final orderBy = '${ProjectFields.createdTime} ASC';
+    //? you can also create your own query statement
+    // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
+    final result = await db.query(tableProjects,
+        where: '${ProjectFields.isCompleted} = ?',
+        whereArgs: [0],
+        orderBy: orderBy);
+    return result.map((json) => Project.fromJson(json)).toList();
+  }
+
+  //? to read all pending projects
   Future<List<Project>> readPendingProjects() async {
     //? you can add more fields next to tableProjects inside db.query
     final db = await instance.database;
-    final orderBy = '${ProjectFields.createdTime} DESC';
+    final orderBy = '${ProjectFields.deadline} ASC';
+    //? you can also create your own query statement
+    // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
+    final result = await db.query(tableProjects,
+        where: '${ProjectFields.isCompleted} = ?',
+        whereArgs: [1],
+        orderBy: orderBy);
+    return result.map((json) => Project.fromJson(json)).toList();
+  }
+
+  //? to read all pending projects in desc order
+  Future<List<Project>> readPENDINGProjectsinDESCorder() async {
+    //? you can add more fields next to tableProjects inside db.query
+    final db = await instance.database;
+    final orderBy = '${ProjectFields.deadline} DESC';
     //? you can also create your own query statement
     // final result = await db.rawQuery('SELECT * FROM $tableProjects ORDER BY $orderBy');
     final result = await db.query(tableProjects,

@@ -28,6 +28,7 @@ class ChoiceChipFilter extends GetView<AllProjectsController> {
               selected: controller.choiceChipValue.value == index,
               onSelected: (bool selected) {
                 controller.choiceChipValue.value = (selected ? index : null)!;
+                controller.choiceChipIndex.value = index;
                 if (controller.choiceChipValue.value == 0) {
                   //? show all projects
                   controller.getAllProjectsList();

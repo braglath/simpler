@@ -8,7 +8,7 @@ import 'package:simpler/app/data/database/project_database.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 
 class AllProjectsController extends GetxController
-    with SingleGetTickerProviderMixin {
+    with GetSingleTickerProviderStateMixin {
   final date = ''.obs;
   int timing = 0;
   late Timer _timer;
@@ -19,10 +19,17 @@ class AllProjectsController extends GetxController
   final choiceChipValue = 0.obs;
   bool showPicker = false;
   late AnimationController animationController;
+  final focusedDateonTap = DateTime.now().obs;
+  final selectedDays = DateTime.now().obs;
+  final filterTapped = false.obs;
+  final showOrderby = false.obs;
+  final choiceChipIndex = 0.obs;
+  TextEditingController projectNameController = TextEditingController();
   @override
   void onInit() {
     super.onInit();
     currentDate();
+    print('date new focused - $focusedDateonTap');
     getAllProjectsList();
     animationController = AnimationController(
         vsync: this,
@@ -42,6 +49,19 @@ class AllProjectsController extends GetxController
       // print(timing);
       // print(date.value);
     });
+  }
+
+  List getEventsForDay(DateTime day) {
+    return allProjectsList;
+  }
+
+  void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    focusedDateonTap.value = focusedDay;
+    selectedDays.value = selectedDay;
+    print('date, focused date - $focusedDay');
+    print('date, selected date - $selectedDay');
+    // getProjectsListwithCreateDate(selectedDay);
+    // _selectedEvents.value = _getEventsForDay(selectedDay);
   }
 
   void scrollToBottomOnTap() {
@@ -87,6 +107,37 @@ class AllProjectsController extends GetxController
   Future getPendingProjectsList() async {
     final allProjects = await ProjectDatabase.instance.readPendingProjects();
     allProjectsList.value = allProjects;
+  }
+
+  Future getPendingProjectsinDESCorder(bool val) async {
+    showOrderby.value = val;
+    if (val && choiceChipIndex.value == 0) {
+      final allProjects =
+          await ProjectDatabase.instance.readAllprojectsinASCorder();
+      allProjectsList.value = allProjects;
+    } else if (!val && choiceChipIndex.value == 0) {
+      final allProjects = await ProjectDatabase.instance.readAllProjects();
+      allProjectsList.value = allProjects;
+    }
+
+    if (val && choiceChipIndex.value == 1) {
+      final allProjects =
+          await ProjectDatabase.instance.readCOMPLETEDprojectsinASCorder();
+      allProjectsList.value = allProjects;
+    } else if (!val && choiceChipIndex.value == 1) {
+      final allProjects =
+          await ProjectDatabase.instance.readCompletedProjects();
+      allProjectsList.value = allProjects;
+    }
+
+    if (val && choiceChipIndex.value == 2) {
+      final allProjects =
+          await ProjectDatabase.instance.readPENDINGProjectsinDESCorder();
+      allProjectsList.value = allProjects;
+    } else if (!val && choiceChipIndex.value == 2) {
+      final allProjects = await ProjectDatabase.instance.readPendingProjects();
+      allProjectsList.value = allProjects;
+    }
   }
 
   void currentDate() {

@@ -87,13 +87,12 @@ class AppPages {
         transitionDuration: const Duration(milliseconds: 500),
         curve: Curves.easeInOutCubic),
     GetPage(
-      name: _Paths.SPLASH_SCREEN,
-      page: () => SplashScreenView(),
-      binding: SplashScreenBinding(),
-    ),
+        name: _Paths.SPLASH_SCREEN,
+        page: () => SplashScreenView(),
+        binding: SplashScreenBinding()),
     GetPage(
         name: _Paths.ALL_PROJECTS,
-        page: () => const AllProjectsView(),
+        page: () => AllProjectsView(),
         binding: AllProjectsBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),

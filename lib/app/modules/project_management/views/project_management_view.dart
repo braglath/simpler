@@ -104,6 +104,7 @@ class ProjectManagementView extends GetView<ProjectManagementController> {
                                   onActionTap: () =>
                                       controller.refreshToDoTask(projectId),
                                   onLeadingTap: () => Get.back(),
+                                  needSearchOption: false,
                                 );
                               })),
                         )

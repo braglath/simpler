@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 
 class CustomProfileImage extends StatelessWidget {
@@ -8,6 +10,7 @@ class CustomProfileImage extends StatelessWidget {
   final double circleRadius;
   final double imageHeight;
   final double imageWidth;
+  final bool needSearchIcon;
   const CustomProfileImage(
       {Key? key,
       required this.onProfileTap,
@@ -15,7 +18,8 @@ class CustomProfileImage extends StatelessWidget {
       required this.asset,
       required this.circleRadius,
       required this.imageHeight,
-      required this.imageWidth})
+      required this.imageWidth,
+      required this.needSearchIcon})
       : super(key: key);
 
   @override
@@ -25,12 +29,18 @@ class CustomProfileImage extends StatelessWidget {
       child: CircleAvatar(
           backgroundColor: Colors.white,
           radius: circleRadius,
-          child: Image.asset(
-            needAvatar ? UserDataDetails().readUserAvatar() : asset,
-            fit: BoxFit.contain,
-            height: imageHeight,
-            width: imageWidth,
-          )),
+          child: needSearchIcon
+              ? const FaIcon(
+                  FontAwesomeIcons.search,
+                  color: ColorRes.textColor,
+                  size: 18,
+                )
+              : Image.asset(
+                  needAvatar ? UserDataDetails().readUserAvatar() : asset,
+                  fit: BoxFit.contain,
+                  height: imageHeight,
+                  width: imageWidth,
+                )),
     );
   }
 }

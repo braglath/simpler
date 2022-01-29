@@ -55,6 +55,7 @@ class HomeView extends GetView<HomeController> {
                             .close()
                             .whenComplete(
                                 () => UserDataDetails().deleteUserDetails()),
+                        needSearchOption: false,
                       );
                     }),
                   ),
