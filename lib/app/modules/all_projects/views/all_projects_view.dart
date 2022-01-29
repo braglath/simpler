@@ -4,14 +4,13 @@ import 'package:get/get.dart';
 import 'package:simpler/app/data/resources/colour_resources.dart';
 import 'package:simpler/app/data/user_data/user_data.dart';
 import 'package:simpler/app/routes/app_pages.dart';
-import 'package:simpler/app/views/animations/fade_animation.dart';
 import 'package:simpler/app/views/custom%20widgets/custom_heading.dart';
 import 'package:simpler/app/views/custom%20widgets/floating_appbar.dart';
 import 'package:simpler/app/views/custom%20widgets/separator.dart';
 import 'package:simpler/app/views/ui%20widgets/choice_chip_filter.dart';
 import 'package:simpler/app/views/ui%20widgets/projects_list.dart';
-import '../controllers/all_projects_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../controllers/all_projects_controller.dart';
 
 class AllProjectsView extends GetView<AllProjectsController> {
   const AllProjectsView({Key? key}) : super(key: key);

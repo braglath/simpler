@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import 'package:simpler/app/modules/main_splash_screen/bindings/main_splash_screen_binding.dart';
+import 'package:simpler/app/modules/main_splash_screen/views/main_splash_screen_view.dart';
+
 import '../modules/all_projects/bindings/all_projects_binding.dart';
 import '../modules/all_projects/views/all_projects_view.dart';
 import '../modules/ask_name.dart/bindings/ask_name_dart_binding.dart';
@@ -31,7 +34,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static final INITIAL = Routes.WELCOME_SCREEN;
+  static final INITIAL = Routes.MAIN_SPLASH_SCREEN;
 
   static final routes = [
     GetPage(
@@ -112,9 +115,16 @@ class AppPages {
       name: _Paths.WELCOME_SCREEN,
       page: () => WelcomeScreenView(),
       binding: WelcomeScreenBinding(),
-      transition: Transition.fadeIn,
+      transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 500),
       curve: Curves.easeInOutCubic,
     ),
+    GetPage(
+        name: _Paths.MAIN_SPLASH_SCREEN,
+        page: () => MainSplashScreenView(),
+        binding: MainSplashScreenBinding(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic),
   ];
 }

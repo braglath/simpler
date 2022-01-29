@@ -16,6 +16,7 @@ abstract class Routes {
   static const PROFILE_PAGE = _Paths.PROFILE_PAGE;
   static const INCREASE_DEADLINE = _Paths.INCREASE_DEADLINE_PAGE;
   static const WELCOME_SCREEN = _Paths.WELCOME_SCREEN;
+  static const MAIN_SPLASH_SCREEN = _Paths.MAIN_SPLASH_SCREEN;
 }
 
 abstract class _Paths {
@@ -31,4 +32,5 @@ abstract class _Paths {
   static const PROFILE_PAGE = '/profile-page';
   static const INCREASE_DEADLINE_PAGE = '/increase-deadline';
   static const WELCOME_SCREEN = '/welcome-screen';
+  static const MAIN_SPLASH_SCREEN = '/main-splash-screen';
 }
