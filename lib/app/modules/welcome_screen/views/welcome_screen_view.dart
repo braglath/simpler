@@ -32,10 +32,10 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Image.asset(
-              'assets/1.png',
-              fit: BoxFit.cover,
-            ),
+            // Image.asset(
+            //   'assets/1.png',
+            //   fit: BoxFit.cover,
+            // ),
             Padding(padding: const EdgeInsets.all(20.0)),
             Column(
               children: <Widget>[
@@ -65,10 +65,10 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Image.asset(
-              'assets/1.png',
-              fit: BoxFit.cover,
-            ),
+            // Image.asset(
+            //   'assets/1.png',
+            //   fit: BoxFit.cover,
+            // ),
             Padding(padding: const EdgeInsets.all(20.0)),
             Column(
               children: <Widget>[
@@ -98,10 +98,10 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Image.asset(
-              'assets/1.png',
-              fit: BoxFit.cover,
-            ),
+            // Image.asset(
+            //   'assets/1.png',
+            //   fit: BoxFit.cover,
+            // ),
             Padding(padding: const EdgeInsets.all(20.0)),
             Column(
               children: <Widget>[
@@ -131,10 +131,10 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Image.asset(
-              'assets/1.png',
-              fit: BoxFit.cover,
-            ),
+            // Image.asset(
+            //   'assets/1.png',
+            //   fit: BoxFit.cover,
+            // ),
             Padding(padding: const EdgeInsets.all(20.0)),
             Column(
               children: <Widget>[

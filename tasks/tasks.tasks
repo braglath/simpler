@@ -1,0 +1,24 @@
+ SIMPLER:
+   ☐ add images in all welcome screen
+   ☐ change welcome screen texts
+   ☐ add validations in all fields
+   ☐ keyboard first keypress in all text field is not registering
+   ☐ add fingerprint login
+   ☐ when creating a project, adding name, check if that name with project already exists
+   ☐ todo in progress done, box check sizing inside scroll
+   ☐ change edit profile UI also add home page total, pending and completed widgets
+   ☐ add logout button in profile page
+   ☐ clear data option should be more hidden
+   ☐ in home page, remove when logo on tap going to login page
+   ☐ in view all page, change on focus border color in search text field
+   ☐ draggable task functionality
+   ☐ selecting project deadline date, should not allow to select previous dates than current dates
+   ☐ add custom project images
+   ☐ sometimes project not getting created in project icon selection page
+   ☐ optimize for performance, check memory leak
+
+   WELCOME SCREEN:
+      ☐ create projects with deadline
+      ☐ We will notify you when closer to deadline
+      ☐ create tasks under each project
+      ☐ manage projects with ease

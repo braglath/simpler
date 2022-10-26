@@ -43,7 +43,7 @@ CREATE TABLE $tableProjects (
   ${ProjectFields.completedTime} $textType
 )
 ''');
-//? to create multiple datatable you can simply copy paste the above db.execute code
+//? to create multiple data-table you can simply copy paste the above db.execute code
 //? and change the $tableProjects name to a new one
   }
 
